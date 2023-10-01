@@ -33,7 +33,7 @@
             <td>YAN, Siu Wa</td>
             <td>xxxxxxxx</td>
             <td><code>xxxx@connect.ust.hk</code></td>
-            <td>X+D</td>
+            <td>C+D</td>
             <td>N</td>
         </tr>
     </tbody>

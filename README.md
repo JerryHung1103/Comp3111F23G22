@@ -23,9 +23,9 @@
         <tr>
             <!---This is Paddy-->
             <td>POON, Yui</td>
-            <td>xxxxxxxx</td>
-            <td><code>xxxx@connect.ust.hk</code></td>
-            <td>X+D</td>
+            <td>20867002</td>
+            <td><code>ypoonaa@connect.ust.hk</code></td>
+            <td>B+D</td>
             <td>N</td>
         </tr>
         <tr>

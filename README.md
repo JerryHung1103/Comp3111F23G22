@@ -31,7 +31,7 @@
         <tr>
             <!---This is Sam-->
             <td>YAN, Siu Wa</td>
-            <td>xxxxxxxx</td>
+            <td>20918758</td>
             <td><code>swyan@connect.ust.hk</code></td>
             <td>C+D</td>
             <td>N</td>

@@ -13,7 +13,7 @@
         </tr>
         <tr>
             <td>HUNG, Ki Sen</td>
-            <td>x</td>
+            <td>20864490</td>
             <td><code>kshung@connect.ust.hk</code></td>
             <td>A+D</td>
             <td>Y</td>

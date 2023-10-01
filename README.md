@@ -29,10 +29,10 @@
             <td>N</td>
         </tr>
         <tr>
-            <!---This is Semsem-->
+            <!---This is Sam-->
             <td>YAN, Siu Wa</td>
             <td>xxxxxxxx</td>
-            <td><code>xxxx@connect.ust.hk</code></td>
+            <td><code>swyan@connect.ust.hk</code></td>
             <td>C+D</td>
             <td>N</td>
         </tr>

@@ -1,8 +1,7 @@
 package Game_Component;//my package
 
 import java.awt.*;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.List;
 import javax.swing.*;
@@ -11,7 +10,7 @@ public class Maze extends JFrame {
      static final int ROWS = 30;
      static final int COLS = 30;
     private static final int SQUARE_SIZE = 30;
-    static int [][] map=new int[ROWS][COLS];
+    public static int [][] map=new int[ROWS][COLS];
     public static JPanel gridPanel = new JPanel();
 //    public static VertexLocation[][] mazeMap=new VertexLocation[ROWS][COLS];
     public static Map<JPanel, VertexLocation> mazeMap;
@@ -57,6 +56,40 @@ public class Maze extends JFrame {
         setVisible(true);
     }
 
+    public void show_maze(){
+        for (int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLS; j++){
+                if(map[i][j]==1){
+                    if(!(mazeMap.get(get_pannel(i,j)) instanceof Barrier)){
+                        mazeMap.put(get_pannel(i,j),new Barrier(get_pannel(i,j),i,j));
+                        get_pannel(i,j).setBackground(Color.DARK_GRAY);
+                        get_pannel(i,j).repaint();
+                    }
+                }
+                else if(map[i][j]==0){
+                    if(!(mazeMap.get(get_pannel(i,j)) instanceof ClearVertex)){
+                        mazeMap.put(get_pannel(i,j),new ClearVertex(get_pannel(i,j),i,j));
+                        get_pannel(i,j).setBackground(Color.WHITE);
+                        get_pannel(i,j).repaint();
+                    }
+                }
+
+                }
+            }
+
+        setVisible(true);
+    }
+
+    public JPanel get_pannel(int row,int col){
+        for (JPanel jPanel : mazeMap.keySet()) {
+            if(mazeMap.get(jPanel).x==row&&mazeMap.get(jPanel).y==col){
+               return jPanel;
+                   }
+                }
+        return null ;
+
+    }
+
 
     public void User_input(){
         SquareMouseListener listener = new SquareMouseListener();
@@ -98,25 +131,8 @@ public class Maze extends JFrame {
                         }
                     }
                 }
-
-
-
             }
         }
-
         writer.close();
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }

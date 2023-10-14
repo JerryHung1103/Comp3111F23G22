@@ -4,7 +4,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import Game_Component.*;//my package
-public class SquareMouseListener extends MouseAdapter {
+public class PX_Square_Button extends MouseAdapter {
     @Override
     public void mousePressed(MouseEvent e) {
         JPanel squarePanel = (JPanel) e.getSource();

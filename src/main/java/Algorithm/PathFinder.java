@@ -12,6 +12,7 @@ public class PathFinder {
         dfs(startRow, startCol,map,  visited,endRow,endCol,   currentPath, paths);
         return paths;
 //gg
+//gg
     }
     private static void dfs(int row, int col, int[][] map, boolean[][] visited, int endRow, int endCol, List<int[]> currentPath, List<List<int[]>> paths) {
         int rows = Maze.ROWS;

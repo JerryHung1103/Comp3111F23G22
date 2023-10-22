@@ -1,8 +1,8 @@
 package Game_Component;//my package
-
 import java.awt.*;
 import java.io.*;
 import java.util.*;
+import java.util.List;
 import javax.swing.*;
 import Event_Handler.*;
 public class Maze extends JFrame {
@@ -14,7 +14,7 @@ public class Maze extends JFrame {
     public static Map<JPanel, VertexLocation> mazeMap;
 
     public Maze() {
-        mazeMap = new HashMap<JPanel, VertexLocation>();
+        mazeMap = new HashMap<>();
         setTitle("Grid Editor");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -44,7 +44,6 @@ public class Maze extends JFrame {
                 gridPanel.add(squarePanel);
             }
         }
-
         getContentPane().add(gridPanel);
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
         pack();
@@ -69,7 +68,6 @@ public class Maze extends JFrame {
             }
         }
     }
-
     public JPanel get_panel(int row, int col) {
         for (JPanel jPanel : mazeMap.keySet()) {
             if (mazeMap.get(jPanel).x == row && mazeMap.get(jPanel).y == col) {
@@ -91,8 +89,8 @@ public class Maze extends JFrame {
             int x = mazeMap.get(jPanel).x;
             int y = mazeMap.get(jPanel).y;
             Random random = new Random();
-            int randomInt = random.nextInt(2);
-            if (randomInt == 1)
+            double randomNumber = random.nextDouble();
+            if (randomNumber >0.75)
                 Maze.mazeMap.put(jPanel, new Barrier(jPanel, x, y));
             else
                 Maze.mazeMap.put(jPanel, new ClearVertex(jPanel, x, y));
@@ -120,27 +118,6 @@ public class Maze extends JFrame {
         }
         writer.close();
     }
-
-
-//    public static void findPath(List<List<int[]>> arr){
-//        arr = PathFinder.findAllPaths(Maze.map, 0 ,0, 1, 1);
-//}
-//
-//
-//
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

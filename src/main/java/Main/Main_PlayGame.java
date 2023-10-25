@@ -1,10 +1,7 @@
 package Main;
-import Game_Component.*;//my package 
-
-import java.util.Arrays;
+import Game_Component.*;//my package
 import java.util.List;
-
-import static Algorithm.PathFinder.findAllPaths;
+import static Algorithm.PathFinder.*;
 
 public class Main_PlayGame {
      static public int GAME_STATE =0;
@@ -15,16 +12,27 @@ public class Main_PlayGame {
 
         else if(GAME_STATE==1){
             System.out.println("Start main");
-            List<List<int[]>> paths = findAllPaths(Maze.map, 0, 0, 29, 29);
-            for (List<int[]> path : paths) {
-                for (int[] point : path) {
-                    System.out.print(Arrays.toString(point) + " ");
+//            for (int i = 0; i < Maze.ROWS; i++) {
+//                for (int j = 0; j < Maze.COLS; j++) {
+//                    System.out.print(Maze.map[i][j]);
+//                }
+//                System.out.println();
+//            }
+
+// For debugging
+
+            int startRow=0;int startCol=0;int endRow=29;int endCol=0;
+
+            List<int[]> shortestPath = findShortestPath(Maze.map, startRow, startCol, endRow, endCol);
+            if (shortestPath.size()<city_block_distance(startRow,startCol,endRow,endCol)) {
+                System.out.println("No path found.");
+            } else {
+                System.out.println("Shortest path:");
+                for (int[] position : shortestPath) {
+                    System.out.print("[" + position[0] + ", " + position[1] + "] ");
                 }
-                System.out.println();
             }
         }
-
-
 
     }
 }

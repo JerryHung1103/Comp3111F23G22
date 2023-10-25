@@ -1,79 +1,80 @@
 package Algorithm;
 import java.util.ArrayList;
 import java.util.List;
-import Game_Component.Maze;
+import java.util.PriorityQueue;
 import static java.lang.Math.abs;
 public class PathFinder {
-    public static int dis(int x1, int y1,int x2,int y2){
+    public static int city_block_distance(int x1,int y1, int x2, int y2){
         return abs(x1-x2)+abs(y1-y2);
     }
-    static int limit=0;
-    public static List<List<int[]>> findAllPaths(int[][] map, int startRow, int startCol, int endRow, int endCol) {
-        int rows = map.length;
-        int cols = map[0].length;
+    public static List<int[]> findShortestPath(int[][] map, int startRow, int startCol, int endRow, int endCol) {
+        // I used the fucking Dijkstra's algorithm
+        //https://www.freecodecamp.org/chinese/news/dijkstras-shortest-path-algorithm-visual-introduction/
+        int rows = map[0].length;
+        int cols = map.length;
         boolean[][] visited = new boolean[rows][cols];
-        List<List<int[]>> paths = new ArrayList<>();
-        List<int[]> currentPath = new ArrayList<>();
+        int[][] distance = new int[rows][cols];
+        int[][] previous = new int[rows][cols];
 
-        dfs(-1,startRow, startCol,map,  visited,endRow,endCol,   currentPath, paths);
-        return paths;
-    }
-    private static void dfs(int flg,int row, int col, int[][] map, boolean[][] visited, int endRow, int endCol, List<int[]> currentPath, List<List<int[]>> paths) {
-        int rows = Maze.ROWS;
-        int cols =Maze.COLS;
-       switch(flg){
-           case 0:// Down
-               if(dis(row,col,endRow,endCol)>dis(row-1,col,endRow,endCol))return;
-               break;
-           case 1:// Up
-               if(dis(row,col,endRow,endCol)>dis(row+1,col,endRow,endCol))return;
-               break;
-           case 2:// Right
-               if(dis(row,col,endRow,endCol)>dis(row,col-1,endRow,endCol))return;
-               break;
-           case 3:// Left
-               if(dis(row,col,endRow,endCol)>dis(row,col+1,endRow,endCol))return;
-               break;
-           default:break;
-       }
-        if(row>endRow){
-            row--;
-            return;
-
-        }
-        if(col>endCol) {
-            col--;
-            return;
+        // Initialize distance array with maximum values
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                distance[i][j] = Integer.MAX_VALUE;
+            }
         }
 
+        // Initialize priority queue for Dijkstra's algorithm
+        PriorityQueue<int[]> queue = new PriorityQueue<>((a, b) -> distance[a[0]][a[1]] - distance[b[0]][b[1]]);
+        queue.offer(new int[]{startRow, startCol});
+        distance[startRow][startCol] = 0;
 
-        if(limit==10)return;
+        while (!queue.isEmpty()) {
+            int[] current = queue.poll();
+            int row = current[0];
+            int col = current[1];
 
+            if (visited[row][col]) {
+                continue;
+            }
 
+            visited[row][col] = true;
 
-        // Check if the current position is valid
-        if (row < 0 || row >= rows || col < 0 || col >= cols || map[row][col] == 1 || visited[row][col]) {
-            return;
+            // Check if we reached the destination
+            if (row == endRow && col == endCol) {
+                break;
+            }
+
+            // Explore neighboring cells
+            int[][] neighbors = {{row + 1, col}, {row - 1, col}, {row, col + 1}, {row, col - 1}};
+            for (int[] neighbor : neighbors) {
+                int newRow = neighbor[0];
+                int newCol = neighbor[1];
+
+                // Check if the neighbor is within bounds and not blocked
+                if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols && map[newCol][newRow] != 1) {
+                    int newDistance = distance[row][col] + 1;
+
+                    // Update the distance and previous arrays if a shorter path is found
+                    if (newDistance < distance[newRow][newCol]) {
+                        distance[newRow][newCol] = newDistance;
+                        previous[newRow][newCol] = row * rows + col;
+                        queue.offer(new int[]{newRow, newCol});
+                    }
+                }
+            }
         }
-
-
-        // Mark the current position as visited
-        visited[row][col] = true;
-        currentPath.add(new int[]{row, col});
-
-
-
-        // If we reached the destination, add the current path to the list of paths
-        if (row == endRow && col == endCol) {
-            paths.add(new ArrayList<>(currentPath));
-            limit++;
+        // Reconstruct the shortest path from the previous array
+        List<int[]> shortestPath = new ArrayList<>();
+        int currentRow = endRow;
+        int currentCol = endCol;
+        while (currentRow != startRow || currentCol != startCol) {
+            shortestPath.add(0, new int[]{currentRow, currentCol});
+            int prev = previous[currentRow][currentCol];
+            currentRow = prev / rows;
+            currentCol = prev % rows;
         }
-        dfs(0,row + 1, col, map, visited, endRow, endCol, currentPath, paths);  // Down
-        dfs(1,row - 1, col, map, visited, endRow, endCol, currentPath, paths);  // Up
-        dfs(2,row, col + 1, map, visited, endRow, endCol, currentPath, paths);  // Right
-        dfs(3,row, col - 1, map, visited, endRow, endCol, currentPath, paths);  // Left
-        // Backtrack: mark the current position as unvisited and remove it from the current path
-        visited[row][col] = false;
-        currentPath.remove(currentPath.size() - 1);
+        shortestPath.add(0, new int[]{startRow, startCol});
+
+        return shortestPath;
     }
 }

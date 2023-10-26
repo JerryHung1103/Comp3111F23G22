@@ -5,6 +5,9 @@ import java.util.*;
 import java.util.List;
 import javax.swing.*;
 import Event_Handler.*;
+
+import static Algorithm.PathFinder.city_block_distance;
+
 public class Maze extends JFrame {
     public static final int ROWS = 30;
     public static final int COLS = 30;
@@ -40,7 +43,7 @@ public class Maze extends JFrame {
                 squarePanel.addMouseListener(listener_);
                 squarePanel.setPreferredSize(new Dimension(SQUARE_SIZE, SQUARE_SIZE));
                 squarePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                mazeMap.put(squarePanel, new ClearVertex(squarePanel, j, i));
+                mazeMap.put(squarePanel, new ClearVertex(squarePanel, i, j));
                 gridPanel.add(squarePanel);
             }
         }
@@ -123,12 +126,21 @@ public class Maze extends JFrame {
 
 
     public static void show_path( List<int[]> path){
+        if(!Path_Exist(path)) return;
         for(int[] coordinate : path){
             JPanel panel= get_panel(coordinate[0]   , coordinate[1]);
             panel.setBackground(Color.GREEN);
             panel.repaint();
 
         }
+    }
+
+
+    public static boolean Path_Exist( List<int[]> path){
+        return ! (path.size()<city_block_distance(path.get(0)[0],
+                                                path.get(0)[1],
+                                                path.get(path.size()-1)[0],
+                                                path.get(path.size()-1)[1]));
     }
 
 

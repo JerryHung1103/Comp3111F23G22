@@ -21,17 +21,23 @@ public class Main_PlayGame {
 
 // For debugging
 
-            int startRow=0;int startCol=0;int endRow=29;int endCol=0;
+            int startRow=0;int startCol=0;int endRow=0;int endCol=29;
 
             List<int[]> shortestPath = findShortestPath(Maze.map, startRow, startCol, endRow, endCol);
             if (shortestPath.size()<city_block_distance(startRow,startCol,endRow,endCol)) {
                 System.out.println("No path found.");
+                System.out.println(Maze.Path_Exist(shortestPath));
+
             } else {
                 System.out.println("Shortest path:");
                 for (int[] position : shortestPath) {
                     System.out.print("[" + position[0] + ", " + position[1] + "] ");
                 }
             }
+
+            Maze.show_path(shortestPath);
+
+
         }
 
     }

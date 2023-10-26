@@ -32,6 +32,10 @@ public class Main_PlayGame {
                     System.out.print("[" + position[0] + ", " + position[1] + "] ");
                 }
             }
+
+            Maze.show_path(shortestPath);
+
+
         }
 
     }

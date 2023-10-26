@@ -40,7 +40,7 @@ public class Maze extends JFrame {
                 squarePanel.addMouseListener(listener_);
                 squarePanel.setPreferredSize(new Dimension(SQUARE_SIZE, SQUARE_SIZE));
                 squarePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                mazeMap.put(squarePanel, new ClearVertex(squarePanel, i, j));
+                mazeMap.put(squarePanel, new ClearVertex(squarePanel, j, i));
                 gridPanel.add(squarePanel);
             }
         }
@@ -68,7 +68,7 @@ public class Maze extends JFrame {
             }
         }
     }
-    public JPanel get_panel(int row, int col) {
+    public static JPanel get_panel(int row, int col) {
         for (JPanel jPanel : mazeMap.keySet()) {
             if (mazeMap.get(jPanel).x == row && mazeMap.get(jPanel).y == col) {
                 return jPanel;
@@ -117,6 +117,18 @@ public class Maze extends JFrame {
             }
         }
         writer.close();
+    }
+
+
+
+
+    public static void show_path( List<int[]> path){
+        for(int[] coordinate : path){
+            JPanel panel= get_panel(coordinate[0]   , coordinate[1]);
+            panel.setBackground(Color.GREEN);
+            panel.repaint();
+
+        }
     }
 
 

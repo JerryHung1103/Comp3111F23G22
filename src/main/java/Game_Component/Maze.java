@@ -9,11 +9,14 @@ import Event_Handler.*;
 import static Algorithm.PathFinder.city_block_distance;
 
 public class Maze extends JFrame {
+    public static JPanel gridPanel = new JPanel();
     public static final int ROWS = 30;
     public static final int COLS = 30;
-    private static final int SQUARE_SIZE = 30;
+    public static final int SQUARE_SIZE = 30;
     public static int[][] map = new int[ROWS][COLS];
-    public static JPanel gridPanel = new JPanel();
+
+    public static JPanel tempPanel = new JPanel();
+
     public static Map<JPanel, VertexLocation> mazeMap;
 
     public Maze() {
@@ -40,13 +43,32 @@ public class Maze extends JFrame {
             for (int j = 0; j < COLS; j++) {
                 JPanel squarePanel = new JPanel();
                 PX_Square_Button listener_ = new PX_Square_Button();
-                squarePanel.addMouseListener(listener_);
+
+              //  squarePanel.addMouseListener(listener_);
+                squarePanel.addMouseMotionListener(new PanelDragListener());
+                squarePanel. addMouseListener(new PanelDragListener. PanelMouseListener());
+
                 squarePanel.setPreferredSize(new Dimension(SQUARE_SIZE, SQUARE_SIZE));
                 squarePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 mazeMap.put(squarePanel, new ClearVertex(squarePanel, i, j));
                 gridPanel.add(squarePanel);
             }
         }
+
+
+
+
+
+        tempPanel.setBackground(Color.RED);
+        tempPanel.setBounds(0, 0, 30, 30);
+        tempPanel.addMouseMotionListener(new PanelDragListener());
+        tempPanel.addMouseListener(new PanelDragListener. PanelMouseListener());
+
+        tempPanel.setVisible(false);
+        getContentPane().add(tempPanel);
+
+
+
         getContentPane().add(gridPanel);
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
         pack();
@@ -60,7 +82,7 @@ public class Maze extends JFrame {
                 if (map[i][j] == 1) {
                     if (!(mazeMap.get(get_panel(i, j)) instanceof Barrier)) {
                         mazeMap.put(get_panel(i, j), new Barrier(get_panel(i, j), i, j));
-                        get_panel(i, j).repaint();
+                         get_panel(i, j).repaint();
                     }
                 } else if (map[i][j] == 0) {
                     if (!(mazeMap.get(get_panel(i, j)) instanceof ClearVertex)) {

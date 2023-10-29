@@ -10,4 +10,4 @@ public class VertexLocation {
         squarePanel=panel;
         x=row;y=col;
     }
-}
+   }

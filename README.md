@@ -40,4 +40,4 @@
     </tbody>
   </table>
 
-  ![](https://im3.ezgif.com/tmp/ezgif-3-750e926de9.webp)
+  ![](https://i.ibb.co/wNDTjb0/ezgif-com-gif-to-webp.webp)

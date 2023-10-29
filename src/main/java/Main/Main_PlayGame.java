@@ -21,7 +21,7 @@ public class Main_PlayGame {
 
 // For debugging
 
-            int startRow=0;int startCol=0;int endRow=0;int endCol=29;
+            int startRow=0;int startCol=0;int endRow=4;int endCol=5;
 
             List<int[]> shortestPath = findShortestPath(Maze.map, startRow, startCol, endRow, endCol);
             if (shortestPath.size()<city_block_distance(startRow,startCol,endRow,endCol)) {

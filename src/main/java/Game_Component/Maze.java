@@ -42,9 +42,8 @@ public class Maze extends JFrame {
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
                 JPanel squarePanel = new JPanel();
-                PX_Square_Button listener_ = new PX_Square_Button();
-
-              //  squarePanel.addMouseListener(listener_);
+               // PX_Square_Button listener_ = new PX_Square_Button();
+               // squarePanel.addMouseListener(listener_);
                 squarePanel.addMouseMotionListener(new PanelDragListener());
                 squarePanel. addMouseListener(new PanelDragListener. PanelMouseListener());
 
@@ -55,20 +54,12 @@ public class Maze extends JFrame {
             }
         }
 
-
-
-
-
-        tempPanel.setBackground(Color.RED);
-        tempPanel.setBounds(0, 0, 30, 30);
+        tempPanel.setBackground(Color.BLACK);
+        tempPanel.setBounds(-1000, -1000, SQUARE_SIZE, SQUARE_SIZE);
         tempPanel.addMouseMotionListener(new PanelDragListener());
         tempPanel.addMouseListener(new PanelDragListener. PanelMouseListener());
-
         tempPanel.setVisible(false);
         getContentPane().add(tempPanel);
-
-
-
         getContentPane().add(gridPanel);
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
         pack();
@@ -143,8 +134,6 @@ public class Maze extends JFrame {
         }
         writer.close();
     }
-
-
 
 
     public static void show_path( List<int[]> path){

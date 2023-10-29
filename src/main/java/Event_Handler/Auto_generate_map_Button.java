@@ -10,6 +10,6 @@ public class Auto_generate_map_Button extends MouseAdapter{
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        Maze.auto_generate_maze();
+        Maze.Auto_Generate_Maze();
     }
 }

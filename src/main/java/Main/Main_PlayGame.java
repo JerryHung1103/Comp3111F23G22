@@ -11,34 +11,33 @@ public class Main_PlayGame {
         }
 
         else if(GAME_STATE==1){
+
             System.out.println("Start main");
-//            for (int i = 0; i < Maze.ROWS; i++) {
-//                for (int j = 0; j < Maze.COLS; j++) {
-//                    System.out.print(Maze.map[i][j]);
-//                }
-//                System.out.println();
-//            }
 
-// For debugging
-
-            int startRow=0;int startCol=0;int endRow=0;int endCol=29;
-
+            int startRow=Maze.mazeMap.get(Maze.Get_Entry()).x;
+            int startCol=Maze.mazeMap.get(Maze.Get_Entry()).y;
+            int endRow=Maze.mazeMap.get(Maze.Get_Exit()).x;
+            int endCol=Maze.mazeMap.get(Maze.Get_Exit()).y;
             List<int[]> shortestPath = findShortestPath(Maze.map, startRow, startCol, endRow, endCol);
+
             if (shortestPath.size()<city_block_distance(startRow,startCol,endRow,endCol)) {
                 System.out.println("No path found.");
                 System.out.println(Maze.Path_Exist(shortestPath));
-
             } else {
                 System.out.println("Shortest path:");
                 for (int[] position : shortestPath) {
                     System.out.print("[" + position[0] + ", " + position[1] + "] ");
                 }
+                System.out.println();
             }
-
-            Maze.show_path(shortestPath);
-
-
+            System.out.println("B=================================================================================================D");
+            Maze.Show_Path(shortestPath);
+            GAME_STATE++;
+            Main_PlayGame.main(new String[0]);
         }
 
+        else if(GAME_STATE==2){
+            System.out.println("Lets Play!");
+        }
     }
 }

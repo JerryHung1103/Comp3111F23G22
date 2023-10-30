@@ -56,7 +56,5 @@ public class PanelDragListener extends MouseAdapter {
                 }
             }
         }
-
-
     }
 }

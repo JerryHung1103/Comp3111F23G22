@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 class PathFinderTest {
+
     @Test
     void city_block_distance() {
-        assertEquals(1090, Algorithm.PathFinder.city_block_distance(3111,3511,3711,3021));
+        PathFinder pathFinder=new PathFinder();
+        assertEquals(1090, pathFinder.city_block_distance(3111,3511,3711,3021));
     }
     @Test
     void findShortestPath() {

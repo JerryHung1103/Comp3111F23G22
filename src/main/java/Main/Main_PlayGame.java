@@ -18,9 +18,10 @@ public class Main_PlayGame {
             int startCol=Maze.mazeMap.get(Maze.Get_Entry()).y;
             int endRow=Maze.mazeMap.get(Maze.Get_Exit()).x;
             int endCol=Maze.mazeMap.get(Maze.Get_Exit()).y;
+
             List<int[]> shortestPath = findShortestPath(Maze.map, startRow, startCol, endRow, endCol);
 
-            if (shortestPath.size()<city_block_distance(startRow,startCol,endRow,endCol)) {
+            if (!Maze.Path_Exist(shortestPath)) {
                 System.out.println("No path found.");
                 System.out.println(Maze.Path_Exist(shortestPath));
             } else {
@@ -38,6 +39,7 @@ public class Main_PlayGame {
 
         else if(GAME_STATE==2){
             System.out.println("Lets Play!");
+            Maze.init_Jerry();
         }
     }
 }

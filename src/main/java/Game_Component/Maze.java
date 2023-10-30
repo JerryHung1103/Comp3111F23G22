@@ -39,7 +39,7 @@ public class Maze extends JFrame {
         buttonPanel.add(confirmButton);
 
         gridPanel.setLayout(new GridLayout(ROWS, COLS));
-        gridPanel.addKeyListener(new KeyboardListener());
+//        gridPanel.addKeyListener(new KeyboardListener());
 
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
@@ -251,21 +251,21 @@ public class Maze extends JFrame {
 
 
 
-    public static void movePlayerUp() {
-        if (Jerry.playerRow > 0 && !(mazeMap.get(get_panel(Jerry.playerRow - 1, Jerry.playerRow)) instanceof Barrier)) {
-            mazeMap.put(get_panel(Jerry.playerRow, Jerry.playerRow), new ClearVertex(get_panel(Jerry.playerRow, Jerry.playerRow), Jerry.playerRow, Jerry.playerRow));
-            Jerry.playerRow--;
-            mazeMap.put(get_panel(Jerry.playerRow, Jerry.playerRow), new Jerry(get_panel(Jerry.playerRow, Jerry.playerRow), Jerry.playerRow, Jerry.playerRow));
-            //updateChasePosition();
-            gridPanel.repaint();
-        }
-    }
+//    public static void movePlayerUp() {
+//        if (Jerry.playerRow > 0 && !(mazeMap.get(get_panel(Jerry.playerRow - 1, Jerry.playerRow)) instanceof Barrier)) {
+//            mazeMap.put(get_panel(Jerry.playerRow, Jerry.playerRow), new ClearVertex(get_panel(Jerry.playerRow, Jerry.playerRow), Jerry.playerRow, Jerry.playerRow));
+//            Jerry.playerRow--;
+//            mazeMap.put(get_panel(Jerry.playerRow, Jerry.playerRow), new Jerry(get_panel(Jerry.playerRow, Jerry.playerRow), Jerry.playerRow, Jerry.playerRow));
+//            //updateChasePosition();
+//            gridPanel.repaint();
+//        }
+//    }
 
 
-    public static void init_Jerry(){
-        JPanel entry=Get_Entry();
-        mazeMap.put(entry, new Jerry(entry, mazeMap.get(entry).x,  mazeMap.get(entry).y));
-    }
+//    public static void init_Jerry(){
+//        JPanel entry=Get_Entry();
+//        mazeMap.put(entry, new Jerry(entry, mazeMap.get(entry).x,  mazeMap.get(entry).y));
+//    }
 
 
 

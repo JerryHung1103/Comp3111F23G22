@@ -15,7 +15,7 @@ public class PathFinder {
         boolean[][] closed = new boolean[rows][cols];
         int[][] distance = new int[rows][cols];
         int[][] previous = new int[rows][cols];
-System.out.println("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+//System.out.println("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         // Initialize distance array with maximum values
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {

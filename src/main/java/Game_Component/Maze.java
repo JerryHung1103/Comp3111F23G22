@@ -5,13 +5,15 @@ import java.util.*;
 import java.util.List;
 import javax.swing.*;
 import Event_Handler.*;
+import org.jetbrains.annotations.NotNull;
+
 import static Algorithm.PathFinder.city_block_distance;
 import static Algorithm.PathFinder.findShortestPath;
 
 public class Maze extends JFrame {
     public static JPanel gridPanel = new JPanel();
-    public static final int ROWS = 30;
-    public static final int COLS = 30;
+    public static int ROWS = 30;
+    public static int COLS = 30;
     public static final int SQUARE_SIZE = 30;
     public static int[][] map = new int[ROWS][COLS];
 
@@ -67,23 +69,23 @@ public class Maze extends JFrame {
         setVisible(true);
     }
 
-    public void load_maze() {//load the grid as boolean map
-        for (int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLS; j++) {
-                if (map[i][j] == 1) {
-                    if (!(mazeMap.get(get_panel(i, j)) instanceof Barrier)) {
-                        mazeMap.put(get_panel(i, j), new Barrier(get_panel(i, j), i, j));
-                         get_panel(i, j).repaint();
-                    }
-                } else if (map[i][j] == 0) {
-                    if (!(mazeMap.get(get_panel(i, j)) instanceof ClearVertex)) {
-                        mazeMap.put(get_panel(i, j), new ClearVertex(get_panel(i, j), i, j));
-                        get_panel(i, j).repaint();
-                    }
-                }
-            }
-        }
-    }
+//    public void load_maze() {//load the grid as boolean map
+//        for (int i = 0; i < ROWS; i++) {
+//            for (int j = 0; j < COLS; j++) {
+//                if (map[i][j] == 1) {
+//                    if (!(mazeMap.get(get_panel(i, j)) instanceof Barrier)) {
+//                        mazeMap.put(get_panel(i, j), new Barrier(get_panel(i, j), i, j));
+//                         get_panel(i, j).repaint();
+//                    }
+//                } else if (map[i][j] == 0) {
+//                    if (!(mazeMap.get(get_panel(i, j)) instanceof ClearVertex)) {
+//                        mazeMap.put(get_panel(i, j), new ClearVertex(get_panel(i, j), i, j));
+//                        get_panel(i, j).repaint();
+//                    }
+//                }
+//            }
+//        }
+//    }
     public static JPanel get_panel(int row, int col) {
         for (JPanel jPanel : mazeMap.keySet()) {
             if (mazeMap.get(jPanel).x == row && mazeMap.get(jPanel).y == col) {
@@ -92,14 +94,14 @@ public class Maze extends JFrame {
         }
         return null;
     }
-    public VertexLocation Get_Vertex(int row, int col) {
-        for (VertexLocation vertexLocation : mazeMap.values()) {
-            if (vertexLocation.x == row && vertexLocation.y == col) {
-                return vertexLocation;
-            }
-        }
-        return null;
-    }
+//    public VertexLocation Get_Vertex(int row, int col) {
+//        for (VertexLocation vertexLocation : mazeMap.values()) {
+//            if (vertexLocation.x == row && vertexLocation.y == col) {
+//                return vertexLocation;
+//            }
+//        }
+//        return null;
+//    }
     public static int[][] Auto_Generate_Map() {
         int[][] map = new int[ROWS][COLS];
         while(true){
@@ -116,8 +118,8 @@ public class Maze extends JFrame {
             entry=getRandomBoundaryPoint(map);
             exit=getRandomBoundaryPoint(map);
             List<int[]> path = findShortestPath(map, entry[0], entry[1], exit[0], exit[1]);
-            if(Maze.Path_Exist(path))break;
-        }
+            if(Maze.Path_Exist(path))
+                break;}
         return map;
     }
 
@@ -144,9 +146,8 @@ public class Maze extends JFrame {
                 break;
         }
         // Ensure the selected point has a value of 0
-        if (map[point[0]][point[1]] != 0) {
-            return getRandomBoundaryPoint(map);
-        }
+        if (map[point[0]][point[1]] != 0) return getRandomBoundaryPoint(map);
+
         return point;
     }
     public static void Auto_Generate_Maze(){
@@ -168,14 +169,7 @@ public class Maze extends JFrame {
         }
         mazeMap.put(get_panel(entry[0], entry[1]), new Entry(get_panel( entry[0], entry[1]), entry[0], entry[1]));
         mazeMap.put(get_panel(exit[0], exit[1]), new Exit(get_panel( exit[0], exit[1]), exit[0], exit[1]));
-
     }
-
-
-
-
-
-
 
     public static void Save_Map() throws IOException {//save map to csv and update the boolean map
         FileWriter writer = new FileWriter("maze.csv");
@@ -186,10 +180,16 @@ public class Maze extends JFrame {
                     int y = mazeMap.get(jPanel).y;
                     if (x == i && y == j) {
                         map[x][y] = (mazeMap.get(jPanel) instanceof ClearVertex) ? 0 : 1;
+                        if(j==0)writer.append("{");
                         writer.append(map[i][j] == 1 ? "1" : "0");
                         if (j < COLS - 1) {
                             writer.append(",");
-                        } else {
+                        } else if(j==COLS-1 && i==ROWS-1){
+                            writer.append("}");
+                            writer.append("\n");
+                        }
+                        else {
+                            writer.append("},");
                             writer.append("\n");
                         }
                     }

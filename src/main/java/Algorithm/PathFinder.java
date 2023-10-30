@@ -41,9 +41,7 @@ public class PathFinder {
             }
 
             // Skip if the current position is already closed
-            if (closed[row][col]) {
-                continue;
-            }
+
 
             closed[row][col] = true;
 

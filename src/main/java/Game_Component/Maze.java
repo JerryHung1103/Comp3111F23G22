@@ -186,10 +186,16 @@ public class Maze extends JFrame {
                     int y = mazeMap.get(jPanel).y;
                     if (x == i && y == j) {
                         map[x][y] = (mazeMap.get(jPanel) instanceof ClearVertex) ? 0 : 1;
+                        if(j==0)writer.append("{");
                         writer.append(map[i][j] == 1 ? "1" : "0");
                         if (j < COLS - 1) {
                             writer.append(",");
-                        } else {
+                        } else if(j==COLS-1 && i==ROWS-1){
+                            writer.append("}");
+                            writer.append("\n");
+                        }
+                        else {
+                            writer.append("},");
                             writer.append("\n");
                         }
                     }

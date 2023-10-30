@@ -22,7 +22,7 @@ public class Maze extends JFrame {
     public static int[] exit = new int[2];
 
     public static Map<JPanel, VertexLocation> mazeMap;
-    public Maze() {
+    public Maze(Boolean Visible) {
         mazeMap = new HashMap<>();
         setTitle("Have Fun!!!");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,7 +41,6 @@ public class Maze extends JFrame {
         buttonPanel.add(confirmButton);
 
         gridPanel.setLayout(new GridLayout(ROWS, COLS));
-//        gridPanel.addKeyListener(new KeyboardListener());
 
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
@@ -66,8 +65,9 @@ public class Maze extends JFrame {
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
         pack();
         setLocationRelativeTo(null);
-        setVisible(true);
+        setVisible(Visible);
     }
+
 
 //    public void load_maze() {//load the grid as boolean map
 //        for (int i = 0; i < ROWS; i++) {
@@ -86,6 +86,21 @@ public class Maze extends JFrame {
 //            }
 //        }
 //    }
+public static void Reset(){
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            JPanel squarePanel = new JPanel();
+            squarePanel.addMouseMotionListener(new PanelDragListener());
+            squarePanel. addMouseListener(new PanelDragListener. PanelMouseListener());
+            squarePanel.addMouseListener(new RightClickListener());
+            squarePanel.setPreferredSize(new Dimension(SQUARE_SIZE, SQUARE_SIZE));
+            squarePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            mazeMap.put(squarePanel, new ClearVertex(squarePanel, i, j));
+            gridPanel.add(squarePanel);
+        }
+    }
+}
+
     public static JPanel get_panel(int row, int col) {
         for (JPanel jPanel : mazeMap.keySet()) {
             if (mazeMap.get(jPanel).x == row && mazeMap.get(jPanel).y == col) {

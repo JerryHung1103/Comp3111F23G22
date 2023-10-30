@@ -7,13 +7,11 @@ public class Main_PlayGame {
      static public int GAME_STATE =0;
     public static void main(String [] args){
         if(GAME_STATE==0){
-           new Maze();
+           new Maze(true);
         }
 
         else if(GAME_STATE==1){
-
             System.out.println("Start main");
-
             int startRow=Maze.mazeMap.get(Maze.Get_Entry()).x;
             int startCol=Maze.mazeMap.get(Maze.Get_Entry()).y;
             int endRow=Maze.mazeMap.get(Maze.Get_Exit()).x;
@@ -31,12 +29,11 @@ public class Main_PlayGame {
                 }
                 System.out.println();
             }
-            System.out.println("B=================================================================================================D");
+            System.out.println("B=================================================================================================");
             Maze.Show_Path(shortestPath);
             GAME_STATE++;
             Main_PlayGame.main(new String[0]);
         }
-
         else if(GAME_STATE==2){
             System.out.println("Lets Play!");
            // Maze.init_Jerry();

@@ -16,7 +16,7 @@ public class Maze extends JFrame {
     public static int COLS = 30;
     public static final int SQUARE_SIZE = 30;
     public static int[][] map = new int[ROWS][COLS];
-
+    public static JButton confirmButton = new JButton("Confirm");
     public static JPanel tempPanel = new JPanel();
     public static int[] entry = new int[2];
     public static int[] exit = new int[2];
@@ -32,7 +32,7 @@ public class Maze extends JFrame {
         autoGenerateButton.addMouseListener(listener);
 
 
-        JButton confirmButton = new JButton("Confirm");
+
         Confirm_Button confirmListener = new Confirm_Button();
         confirmButton.addMouseListener(confirmListener);
 
@@ -186,32 +186,33 @@ public static void Reset(){
         mazeMap.put(get_panel(exit[0], exit[1]), new Exit(get_panel( exit[0], exit[1]), exit[0], exit[1]));
     }
 
-    public static void Save_Map() throws IOException {//save map to csv and update the boolean map
-        FileWriter writer = new FileWriter("maze.csv");
-        for (int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLS; j++) {
-                for (JPanel jPanel : mazeMap.keySet()) {
-                    int x = mazeMap.get(jPanel).x;
-                    int y = mazeMap.get(jPanel).y;
-                    if (x == i && y == j) {
-                        map[x][y] = (mazeMap.get(jPanel) instanceof ClearVertex) ? 0 : 1;
-                        if(j==0)writer.append("{");
-                        writer.append(map[i][j] == 1 ? "1" : "0");
-                        if (j < COLS - 1) {
-                            writer.append(",");
-                        } else if(j==COLS-1 && i==ROWS-1){
-                            writer.append("}");
-                            writer.append("\n");
-                        }
-                        else {
-                            writer.append("},");
-                            writer.append("\n");
+    public static void Save_Map() {//save map to csv and update the boolean map
+        try {
+            FileWriter writer = new FileWriter("maze.csv");
+            for (int i = 0; i < ROWS; i++) {
+                for (int j = 0; j < COLS; j++) {
+                    for (JPanel jPanel : mazeMap.keySet()) {
+                        int x = mazeMap.get(jPanel).x;
+                        int y = mazeMap.get(jPanel).y;
+                        if (x == i && y == j) {
+                            map[x][y] = (mazeMap.get(jPanel) instanceof ClearVertex) ? 0 : 1;
+                            if (j == 0) writer.append("{");
+                            writer.append(map[i][j] == 1 ? "1" : "0");
+                            if (j < COLS - 1) {
+                                writer.append(",");
+                            } else if (j == COLS - 1 && i == ROWS - 1) {
+                                writer.append("}");
+                                writer.append("\n");
+                            } else {
+                                writer.append("},");
+                                writer.append("\n");
+                            }
                         }
                     }
                 }
             }
-        }
-        writer.close();
+            writer.close();
+        }catch (Exception e){e.printStackTrace();}
     }
 
     public static void Show_Path(List<int[]> path){

@@ -1,4 +1,5 @@
-package Algorithm;
+package Test2;
+import Algorithm.PathFinder;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;

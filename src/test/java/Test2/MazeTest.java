@@ -1,4 +1,8 @@
-package Game_Component;
+package Test2;
+import Game_Component.ClearVertex;
+import Game_Component.Maze;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -12,11 +16,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 public class MazeTest {
 
-    private Maze maze=new Maze(false);
+    private static Maze maze=new Maze(false);
     @Before
     public void setUp() {
         Maze.Reset();
     }
+
 
 
     @Test
@@ -24,6 +29,8 @@ public class MazeTest {
 
         assertFalse(maze.Entry_Exist());
     }
+
+
 
 
     @Test

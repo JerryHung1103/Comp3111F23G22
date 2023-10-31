@@ -38,7 +38,8 @@ public class PanelDragListener extends MouseAdapter {
                     if (original.equals(releasedComponent)) {
                         VertexLocation vertex = new ClearVertex(original, Maze.mazeMap.get(original).x, Maze.mazeMap.get(original).y);
                         Maze.mazeMap.put(original, vertex);
-                    } else if (Maze.mazeMap.get(releasedComponent) instanceof Barrier) {
+                    }
+                    else if (Maze.mazeMap.get(releasedComponent) instanceof Barrier) {
                         VertexLocation vertex = new Barrier(original, Maze.mazeMap.get(original).x, Maze.mazeMap.get(original).y);
                         Maze.mazeMap.put(original, vertex);
                         original.setVisible(true);

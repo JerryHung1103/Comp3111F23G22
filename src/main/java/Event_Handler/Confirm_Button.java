@@ -20,7 +20,6 @@ public class Confirm_Button extends MouseAdapter {
                 Main_PlayGame.main(new String[0]);
             }
             else{
-                // System.out.println("你未input出入口啊7頭");
                 JOptionPane.showMessageDialog(null, "你未input出入口啊7頭", "Warning", JOptionPane.WARNING_MESSAGE);
             }
 

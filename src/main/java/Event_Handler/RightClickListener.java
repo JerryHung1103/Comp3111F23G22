@@ -7,9 +7,9 @@ import java.awt.event.ActionListener;
 import Game_Component.*;//my package
 
 public class RightClickListener extends MouseAdapter {
+    public static JPopupMenu popupMenu = new JPopupMenu();
+    public static void showPopupMenu(MouseEvent e, JPanel jPanel) {
 
-    private static void showPopupMenu(MouseEvent e,JPanel jPanel) {
-        JPopupMenu popupMenu = new JPopupMenu();
 
         JMenuItem entryItem = new JMenuItem("Entry");
         entryItem.addActionListener(new ActionListener() {

@@ -7,7 +7,7 @@ public class Main_PlayGame {
      static public int GAME_STATE =0;
     public static void main(String [] args){
         if(GAME_STATE==0){
-           new Maze(true);
+           Maze maze=new Maze(true);
         }
 
         else if(GAME_STATE==1){

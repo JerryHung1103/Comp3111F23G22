@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 class PathFinderTest {
-
     @Test
     void city_block_distance() {
         PathFinder pathFinder=new PathFinder();

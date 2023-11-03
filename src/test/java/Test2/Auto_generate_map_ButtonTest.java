@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import java.awt.event.MouseEvent;
 import static org.junit.jupiter.api.Assertions.*;
  class Auto_generate_map_ButtonTest {
-
     @Test
     protected void mouseClicked() {
         Maze maze=new Maze(false);

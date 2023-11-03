@@ -1,12 +1,8 @@
 package Test2;
 import Game_Component.ClearVertex;
 import Game_Component.Maze;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -16,22 +12,16 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 public class MazeTest {
 
-    private static Maze maze=new Maze(false);
+    private final static Maze maze=new Maze(false);
     @Before
     public void setUp() {
         Maze.Reset();
     }
-
-
-
     @Test
     void testEntryExist(){
-
         assertFalse(maze.Entry_Exist());
+        //since we didn't up the Exist, so it is expected to be false
     }
-
-
-
 
     @Test
     void testExitExist(){
@@ -61,23 +51,13 @@ public class MazeTest {
             }
         }
     }
-
     @Test
     public void testPathExist() {
-        List<int[]> path = List.of(
-                new int[]{0, 0},
-                new int[]{0, 1},
-                new int[]{0, 2}
-        );
+        List<int[]> path = List.of(new int[]{0, 0}, new int[]{0, 1}, new int[]{0, 2});
         assertTrue(Maze.Path_Exist(path));
-
-        List<int[]> pathWithGap = List.of(
-                new int[]{0, 0},
-                new int[]{0, 2}
-        );
+        List<int[]> pathWithGap = List.of(new int[]{0, 0}, new int[]{0, 2});
         assertFalse(Maze.Path_Exist(pathWithGap));
     }
-
     @Test
     public void testAutoGenerateMap() {
         int[][] generatedMap = Maze.Auto_Generate_Map();
@@ -89,11 +69,10 @@ public class MazeTest {
             }
         }
     }
-
     @Test
-    void testget_panel(){
-
-        assertEquals( Maze.get_panel(787, 878),null );
+    void test_get_panel(){
+        assertNull(Maze.get_panel(787, 878));
+        // have no such index, so it is expected to be null
         assertTrue(Maze.mazeMap.keySet().contains(Maze.get_panel(29, 29)));
     }
     @Test
@@ -105,6 +84,7 @@ public class MazeTest {
         Maze.Show_Path(path);
         for (int[] coordinate : path) {
             JPanel panel = Maze.get_panel(coordinate[0], coordinate[1]);
+            assert panel != null;
             Color backgroundColor = panel.getBackground();
             assertEquals(Color.GREEN, backgroundColor);
         }
@@ -123,23 +103,15 @@ public class MazeTest {
     }
     @Test
     public void testAutoGenerateMaze() {
-
         Maze.Auto_Generate_Maze();
         List<int[]> path = findShortestPath(Maze.map,Maze.entry[0],Maze.entry[1], Maze.exit[0], Maze.exit[1]);
         assertTrue(Maze.Path_Exist(path));
-
     }
-
     @Test
     public void TestReset() {
         Maze.Reset();
         for(JPanel jPanel: Maze.mazeMap.keySet()){
             assertTrue(Maze.mazeMap.get(jPanel) instanceof ClearVertex);
         }
-
-
     }
-
-
-
 }

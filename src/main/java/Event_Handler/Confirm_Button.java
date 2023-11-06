@@ -4,7 +4,7 @@ import Game_Component.Maze;
 import Main.Main_PlayGame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-public class Confirm_Button extends MouseAdapter {
+public class Confirm_Button extends MouseAdapter{
     @Override
     public void mouseClicked(MouseEvent e) {
         if (Maze.Entry_Exist() && Maze.Exit_Exist()) {

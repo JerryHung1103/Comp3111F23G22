@@ -31,16 +31,20 @@ public class Maze extends JFrame {
         Auto_generate_map_Button listener = new Auto_generate_map_Button();
         autoGenerateButton.addMouseListener(listener);
 
-
-
         Confirm_Button confirmListener = new Confirm_Button();
         confirmButton.addMouseListener(confirmListener);
-
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(autoGenerateButton);
         buttonPanel.add(confirmButton);
-
         gridPanel.setLayout(new GridLayout(ROWS, COLS));
+
+        JLabel label = new JLabel(); //JLabel Creation
+        label.setIcon(new ImageIcon("src/main/java/Game_Component/Jerry.png")); //Sets the image to be displayed as an icon
+        Dimension size = label.getPreferredSize(); //Gets the size of the image
+        label.setBounds(50, 30, size.width, size.height); //Sets the location of the image
+        label.setMaximumSize(new Dimension(10, 10));
+        label.setMinimumSize(new Dimension(10, 10));
+//        label.setPreferredSize(new Dimension(50, 50));
 
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
@@ -50,10 +54,17 @@ public class Maze extends JFrame {
                 squarePanel.addMouseListener(new RightClickListener());
                 squarePanel.setPreferredSize(new Dimension(SQUARE_SIZE, SQUARE_SIZE));
                 squarePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+//                squarePanel.add(label);
+
                 mazeMap.put(squarePanel, new ClearVertex(squarePanel, i, j));
                 gridPanel.add(squarePanel);
+
             }
         }
+
+
+
 
         tempPanel.setBackground(Color.BLACK);
         tempPanel.setBounds(-1000, -1000, SQUARE_SIZE, SQUARE_SIZE);
@@ -69,23 +80,13 @@ public class Maze extends JFrame {
     }
 
 
-//    public void load_maze() {//load the grid as boolean map
-//        for (int i = 0; i < ROWS; i++) {
-//            for (int j = 0; j < COLS; j++) {
-//                if (map[i][j] == 1) {
-//                    if (!(mazeMap.get(get_panel(i, j)) instanceof Barrier)) {
-//                        mazeMap.put(get_panel(i, j), new Barrier(get_panel(i, j), i, j));
-//                         get_panel(i, j).repaint();
-//                    }
-//                } else if (map[i][j] == 0) {
-//                    if (!(mazeMap.get(get_panel(i, j)) instanceof ClearVertex)) {
-//                        mazeMap.put(get_panel(i, j), new ClearVertex(get_panel(i, j), i, j));
-//                        get_panel(i, j).repaint();
-//                    }
-//                }
-//            }
-//        }
-//    }
+    public static void init_Jerry(){
+        JPanel entry=Get_Entry();
+        mazeMap.put(entry, new Jerry(entry, mazeMap.get(entry).x,  mazeMap.get(entry).y));
+
+    }
+
+
 public static void Reset(){
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
@@ -109,14 +110,7 @@ public static void Reset(){
         }
         return null;
     }
-//    public VertexLocation Get_Vertex(int row, int col) {
-//        for (VertexLocation vertexLocation : mazeMap.values()) {
-//            if (vertexLocation.x == row && vertexLocation.y == col) {
-//                return vertexLocation;
-//            }
-//        }
-//        return null;
-//    }
+
     public static int[][] Auto_Generate_Map() {
         int[][] map = new int[ROWS][COLS];
         while(true){
@@ -264,35 +258,6 @@ public static void Reset(){
         }
         return null;
     }
-
-
-
-//    public static void movePlayerUp() {
-//        if (Jerry.playerRow > 0 && !(mazeMap.get(get_panel(Jerry.playerRow - 1, Jerry.playerRow)) instanceof Barrier)) {
-//            mazeMap.put(get_panel(Jerry.playerRow, Jerry.playerRow), new ClearVertex(get_panel(Jerry.playerRow, Jerry.playerRow), Jerry.playerRow, Jerry.playerRow));
-//            Jerry.playerRow--;
-//            mazeMap.put(get_panel(Jerry.playerRow, Jerry.playerRow), new Jerry(get_panel(Jerry.playerRow, Jerry.playerRow), Jerry.playerRow, Jerry.playerRow));
-//            //updateChasePosition();
-//            gridPanel.repaint();
-//        }
-//    }
-
-
-//    public static void init_Jerry(){
-//        JPanel entry=Get_Entry();
-//        mazeMap.put(entry, new Jerry(entry, mazeMap.get(entry).x,  mazeMap.get(entry).y));
-//    }
-
-
-
-
-
-
-
-
-
-
-
 
 }
 

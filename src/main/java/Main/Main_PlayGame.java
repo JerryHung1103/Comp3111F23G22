@@ -36,7 +36,7 @@ public class Main_PlayGame {
         }
         else if(GAME_STATE==2){
             System.out.println("Lets Play!");
-           // Maze.init_Jerry();
+            Maze.init_Jerry();
         }
     }
 }

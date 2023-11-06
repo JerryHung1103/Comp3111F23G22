@@ -29,7 +29,7 @@ public class Main_PlayGame {
                 }
                 System.out.println();
             }
-            System.out.println("B=================================================================================================");
+            System.out.println("B=================================================================================================D");
             Maze.Show_Path(shortestPath);
             GAME_STATE++;
             Main_PlayGame.main(new String[0]);

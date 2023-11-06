@@ -20,11 +20,12 @@ public class Maze extends JFrame {
     public static JPanel tempPanel = new JPanel();
     public static int[] entry = new int[2];
     public static int[] exit = new int[2];
+    public static Jerry jerry = null;
 
     public static Map<JPanel, VertexLocation> mazeMap;
     public Maze(Boolean Visible) {
         mazeMap = new HashMap<>();
-        setTitle("Have Fun!!!");
+        setTitle("Initialize the maze first:");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JButton autoGenerateButton = new JButton("Auto-generate maze");
@@ -265,23 +266,18 @@ public static void Reset(){
         return null;
     }
 
+    public static void init_Jerry(){
+        JPanel entry = Get_Entry();
+        jerry = new Jerry(entry, mazeMap.get(entry).x,  mazeMap.get(entry).y);
+        mazeMap.put(entry, jerry);
+    }
 
-
-//    public static void movePlayerUp() {
-//        if (Jerry.playerRow > 0 && !(mazeMap.get(get_panel(Jerry.playerRow - 1, Jerry.playerRow)) instanceof Barrier)) {
-//            mazeMap.put(get_panel(Jerry.playerRow, Jerry.playerRow), new ClearVertex(get_panel(Jerry.playerRow, Jerry.playerRow), Jerry.playerRow, Jerry.playerRow));
-//            Jerry.playerRow--;
-//            mazeMap.put(get_panel(Jerry.playerRow, Jerry.playerRow), new Jerry(get_panel(Jerry.playerRow, Jerry.playerRow), Jerry.playerRow, Jerry.playerRow));
-//            //updateChasePosition();
-//            gridPanel.repaint();
-//        }
-//    }
-
-
-//    public static void init_Jerry(){
-//        JPanel entry=Get_Entry();
-//        mazeMap.put(entry, new Jerry(entry, mazeMap.get(entry).x,  mazeMap.get(entry).y));
-//    }
+    public static boolean Jerry_exist() {
+        if (jerry != null) {
+            return true;
+        }
+        return false;
+    }
 
 
 

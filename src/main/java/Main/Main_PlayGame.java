@@ -4,10 +4,11 @@ import java.util.List;
 import static Algorithm.PathFinder.*;
 
 public class Main_PlayGame {
-     static public int GAME_STATE =0;
+    static public int GAME_STATE =0;
+    static Maze maze = null;
     public static void main(String [] args){
         if(GAME_STATE==0){
-           new Maze(true);
+           maze = new Maze(true);
         }
 
         else if(GAME_STATE==1){
@@ -35,8 +36,9 @@ public class Main_PlayGame {
             Main_PlayGame.main(new String[0]);
         }
         else if(GAME_STATE==2){
+            maze.setTitle("Let's Play!");
             System.out.println("Lets Play!");
-           // Maze.init_Jerry();
+            Maze.init_Jerry();
         }
     }
 }

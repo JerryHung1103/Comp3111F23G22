@@ -3,7 +3,7 @@ package Game_Component;//my package
 import javax.swing.*;
 import java.awt.*;
 
-public class ClearVertex extends VertexLocation{
+public class ClearVertex extends VertexLocation {
     static final Color color=Color.WHITE;
     public ClearVertex(JPanel panel, int row, int col){
         super(panel,row,col);

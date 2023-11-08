@@ -13,6 +13,10 @@ import java.util.List;
 import java.awt.Image;
 import javax.imageio.ImageIO;
 import java.io.File;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import java.util.TimerTask;
+import java.util.Timer;
 
 import static Algorithm.PathFinder.findShortestPath;
 import static java.lang.Math.abs;
@@ -24,12 +28,21 @@ public class MovingObject extends JPanel implements KeyListener {
     private int JerryY;
     Image tomImage;
     Image jerryImage;
+    Image exitImege;
+    Image entryImage;
 
 
     private int[][] barriers = TransposeArray.T(Maze.map);
 
     private List<int[]> path;
     private int pathIndex;
+
+    private javax.swing.Timer timer;
+
+    private java.util.Timer moveTimer;
+    private TimerTask moveTask;
+    private long lastMoveTime = 0L;
+    private static final long MOVE_DELAY = 80;
 
     public MovingObject(List<int[]> path) {
         for(int i: barriers[0]){
@@ -48,8 +61,9 @@ public class MovingObject extends JPanel implements KeyListener {
         setPreferredSize(new Dimension(900, 900));
 
         try {
-            tomImage = ImageIO.read(new File("src/main/java/Game_Component/tom.jpg"));
+            tomImage = ImageIO.read(new File("src/main/java/Game_Component/tom.png"));
             jerryImage = ImageIO.read(new File("src/main/java/Game_Component/Jerry.png"));
+            exitImege = ImageIO.read(new File("src/main/java/Game_Component/exit.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -57,8 +71,15 @@ public class MovingObject extends JPanel implements KeyListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(tomImage, TomX * 30, TomY * 30, this);
-        g.drawImage(jerryImage, JerryX * 30, JerryY * 30, this);
+
+        // Define desired width and height for the images
+        int imgWidth = 30; // replace with desired width
+        int imgHeight = 30; // replace with desired height
+
+        //tom and jerry x&y need *30 for some reason...
+        g.drawImage(exitImege, Maze.mazeMap.get(Maze.Get_Exit()).y*30, Maze.mazeMap.get(Maze.Get_Exit()).x*30, imgWidth, imgHeight, this);
+        g.drawImage(tomImage, TomX*30, TomY*30, imgWidth, imgHeight, this);
+        g.drawImage(jerryImage, JerryX*30, JerryY*30, imgWidth, imgHeight, this);
 
         // Draw barriers
         for (int i = 0; i < 30; i++) {
@@ -77,6 +98,7 @@ public class MovingObject extends JPanel implements KeyListener {
             JerryX = newX;
             JerryY = newY;
             repaint();
+            checkCollision();
         }
     }
 
@@ -87,6 +109,7 @@ public class MovingObject extends JPanel implements KeyListener {
             TomX = newX;
             TomY = newY;
             repaint();
+            checkCollision();
             System.out.println("Tom moved");
         }
     }
@@ -121,27 +144,48 @@ public class MovingObject extends JPanel implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println("move!!!!!");
         int keyCode = e.getKeyCode();
-        followPath();
+        int dx = 0, dy = 0;
+
         switch (keyCode) {
             case KeyEvent.VK_UP:
-                MoveJerry(0, -1);
-
+                dy = -1;
                 break;
             case KeyEvent.VK_DOWN:
-                MoveJerry(0, 1);
+                dy = 1;
                 break;
             case KeyEvent.VK_LEFT:
-                MoveJerry(-1, 0);
+                dx = -1;
                 break;
             case KeyEvent.VK_RIGHT:
-                MoveJerry(1, 0);
+                dx = 1;
                 break;
         }
-        updatePath(); // Update the path whenever Jerry moves
 
+        final int finalDx = dx;
+        final int finalDy = dy;
 
+        if (moveTimer != null) {
+            moveTimer.cancel();
+        }
+
+        moveTimer = new Timer();
+        moveTask = new TimerTask() {
+            @Override
+            public void run() {
+                // Check if enough time has passed since the last movement
+                if (System.currentTimeMillis() - lastMoveTime >= MOVE_DELAY) {
+                    MoveJerry(finalDx, finalDy);
+                    followPath();
+                    updatePath(); // Update the path whenever Jerry moves
+
+                    // Update the last move time
+                    lastMoveTime = System.currentTimeMillis();
+                }
+            }
+        };
+
+        moveTimer.schedule(moveTask, 0, 100); // jerry move speed
     }
 
     @Override
@@ -150,19 +194,57 @@ public class MovingObject extends JPanel implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
+        if (moveTimer != null) {
+            moveTimer.cancel();
+        }
     }
 
     public void startTimer() {
-        int delay = 500; // Delay between each step (500 milliseconds)
+        int delay = 150; // Tom move speed
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 followPath();
             }
         };
-        Timer timer = new Timer(delay, actionListener);
+        //Timer timer = new Timer(delay, actionListener);
+        timer = new javax.swing.Timer(delay, actionListener);
         timer.start();
     }
 
+    private void checkCollision() {
+        if (TomX == JerryX && TomY == JerryY) {
+            // Stop the timer
+            if(timer != null) {
+                // Stop the timer
+                timer.stop();
+            }
+
+            // Show a message dialog
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    JOptionPane.showMessageDialog(MovingObject.this, "Game Over!");
+                    System.exit(0);
+                }
+            });
+        }
+
+        // Jerry reaches the exit
+        if (JerryX == Maze.mazeMap.get(Maze.Get_Exit()).y && JerryY == Maze.mazeMap.get(Maze.Get_Exit()).x) {
+            // Stop the timer
+            if(timer != null) {
+                // Stop the timer
+                timer.stop();
+            }
+
+            // Show a message dialog
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    JOptionPane.showMessageDialog(MovingObject.this, "Jerry escaped!");
+                    System.exit(0);
+                }
+            });
+        }
+    }
 
 }
 

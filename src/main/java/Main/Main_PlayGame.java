@@ -1,13 +1,19 @@
 package Main;
 import Game_Component.*;//my package
+
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import static Algorithm.PathFinder.*;
 
 public class Main_PlayGame {
      static public int GAME_STATE =0;
+    static List<int[]> shortestPath=new ArrayList<>();
+     static Maze maze;
     public static void main(String [] args){
         if(GAME_STATE==0){
-           Maze maze=new Maze(true);
+            maze=new Maze(true);
         }
 
         else if(GAME_STATE==1){
@@ -17,7 +23,7 @@ public class Main_PlayGame {
             int endRow=Maze.mazeMap.get(Maze.Get_Exit()).x;
             int endCol=Maze.mazeMap.get(Maze.Get_Exit()).y;
 
-            List<int[]> shortestPath = findShortestPath(Maze.map, startRow, startCol, endRow, endCol);
+                shortestPath = findShortestPath(Maze.map, startRow, startCol, endRow, endCol);
 
             if (!Maze.Path_Exist(shortestPath)) {
                 System.out.println("No path found.");
@@ -32,11 +38,12 @@ public class Main_PlayGame {
             System.out.println("B=================================================================================================");
             Maze.Show_Path(shortestPath);
             GAME_STATE++;
-            Main_PlayGame.main(new String[0]);
+            main(new String[2]);
         }
+
         else if(GAME_STATE==2){
-            System.out.println("Lets Play!");
-           // Maze.init_Jerry();
+            System.out.println("play");
+         maze.play_game();
         }
     }
 }

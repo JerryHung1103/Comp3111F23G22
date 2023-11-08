@@ -1,14 +1,20 @@
 package Game_Component;//my package
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.*;
 import java.util.*;
 import java.util.List;
 import javax.swing.*;
+import javax.swing.Timer;
+
 import Event_Handler.*;
-import org.jetbrains.annotations.NotNull;
 
 import static Algorithm.PathFinder.city_block_distance;
 import static Algorithm.PathFinder.findShortestPath;
+import static java.lang.Math.abs;
 
 public class Maze extends JFrame {
     public static JPanel gridPanel = new JPanel();
@@ -21,16 +27,19 @@ public class Maze extends JFrame {
     public static int[] entry = new int[2];
     public static int[] exit = new int[2];
 
+    public static JFrame jFrame = new JFrame();
+
     public static Map<JPanel, VertexLocation> mazeMap;
+
     public Maze(Boolean Visible) {
         mazeMap = new HashMap<>();
-        setTitle("Have Fun!!!");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        jFrame.setTitle("Have Fun!!!");
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JButton autoGenerateButton = new JButton("Auto-generate maze");
         Auto_generate_map_Button listener = new Auto_generate_map_Button();
         autoGenerateButton.addMouseListener(listener);
-
 
 
         Confirm_Button confirmListener = new Confirm_Button();
@@ -46,7 +55,7 @@ public class Maze extends JFrame {
             for (int j = 0; j < COLS; j++) {
                 JPanel squarePanel = new JPanel();
                 squarePanel.addMouseMotionListener(new PanelDragListener());
-                squarePanel. addMouseListener(new PanelDragListener. PanelMouseListener());
+                squarePanel.addMouseListener(new PanelDragListener.PanelMouseListener());
                 squarePanel.addMouseListener(new RightClickListener());
                 squarePanel.setPreferredSize(new Dimension(SQUARE_SIZE, SQUARE_SIZE));
                 squarePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -58,18 +67,18 @@ public class Maze extends JFrame {
         tempPanel.setBackground(Color.BLACK);
         tempPanel.setBounds(-1000, -1000, SQUARE_SIZE, SQUARE_SIZE);
         tempPanel.addMouseMotionListener(new PanelDragListener());
-        tempPanel.addMouseListener(new PanelDragListener. PanelMouseListener());
+        tempPanel.addMouseListener(new PanelDragListener.PanelMouseListener());
         tempPanel.setVisible(false);
-        getContentPane().add(tempPanel);
-        getContentPane().add(gridPanel);
-        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-        pack();
-        setLocationRelativeTo(null);
-        setVisible(Visible);
+        jFrame.getContentPane().add(tempPanel);
+        jFrame.getContentPane().add(gridPanel);
+        jFrame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+        jFrame.pack();
+        jFrame.setLocationRelativeTo(null);
+        jFrame.setVisible(Visible);
     }
 
 
-//    public void load_maze() {//load the grid as boolean map
+    //    public void load_maze() {//load the grid as boolean map
 //        for (int i = 0; i < ROWS; i++) {
 //            for (int j = 0; j < COLS; j++) {
 //                if (map[i][j] == 1) {
@@ -86,20 +95,20 @@ public class Maze extends JFrame {
 //            }
 //        }
 //    }
-public static void Reset(){
-    for (int i = 0; i < ROWS; i++) {
-        for (int j = 0; j < COLS; j++) {
-            JPanel squarePanel = new JPanel();
-            squarePanel.addMouseMotionListener(new PanelDragListener());
-            squarePanel. addMouseListener(new PanelDragListener. PanelMouseListener());
-            squarePanel.addMouseListener(new RightClickListener());
-            squarePanel.setPreferredSize(new Dimension(SQUARE_SIZE, SQUARE_SIZE));
-            squarePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            mazeMap.put(squarePanel, new ClearVertex(squarePanel, i, j));
-            gridPanel.add(squarePanel);
+    public static void Reset() {
+        for (int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLS; j++) {
+                JPanel squarePanel = new JPanel();
+                squarePanel.addMouseMotionListener(new PanelDragListener());
+                squarePanel.addMouseListener(new PanelDragListener.PanelMouseListener());
+                squarePanel.addMouseListener(new RightClickListener());
+                squarePanel.setPreferredSize(new Dimension(SQUARE_SIZE, SQUARE_SIZE));
+                squarePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                mazeMap.put(squarePanel, new ClearVertex(squarePanel, i, j));
+                gridPanel.add(squarePanel);
+            }
         }
     }
-}
 
     public static JPanel get_panel(int row, int col) {
         for (JPanel jPanel : mazeMap.keySet()) {
@@ -109,7 +118,8 @@ public static void Reset(){
         }
         return null;
     }
-//    public VertexLocation Get_Vertex(int row, int col) {
+
+    //    public VertexLocation Get_Vertex(int row, int col) {
 //        for (VertexLocation vertexLocation : mazeMap.values()) {
 //            if (vertexLocation.x == row && vertexLocation.y == col) {
 //                return vertexLocation;
@@ -119,7 +129,7 @@ public static void Reset(){
 //    }
     public static int[][] Auto_Generate_Map() {
         int[][] map = new int[ROWS][COLS];
-        while(true){
+        while (true) {
             Random rand = new Random();
             for (int i = 0; i < ROWS; i++) {
                 for (int j = 0; j < COLS; j++) {
@@ -130,15 +140,16 @@ public static void Reset(){
                     }
                 }
             }
-            entry=getRandomBoundaryPoint(map);
-            exit=getRandomBoundaryPoint(map);
+            entry = getRandomBoundaryPoint(map);
+            exit = getRandomBoundaryPoint(map);
             List<int[]> path = findShortestPath(map, entry[0], entry[1], exit[0], exit[1]);
-            if(Maze.Path_Exist(path))
-                break;}
+            if (Maze.Path_Exist(path))
+                break;
+        }
         return map;
     }
 
-    public static int[]getRandomBoundaryPoint(int[][] map) {
+    public static int[] getRandomBoundaryPoint(int[][] map) {
         Random rand = new Random();
         int[] point = new int[2];
         int side = rand.nextInt(4);  // Randomly select one of the four sides
@@ -165,8 +176,9 @@ public static void Reset(){
 
         return point;
     }
-    public static void Auto_Generate_Maze(){
-        map=Auto_Generate_Map();
+
+    public static void Auto_Generate_Maze() {
+        map = Auto_Generate_Map();
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
                 if (map[i][j] == 1) {
@@ -176,14 +188,14 @@ public static void Reset(){
                     }
                 } else if (map[i][j] == 0) {
 
-                        mazeMap.put(get_panel(i, j), new ClearVertex(get_panel(i, j), i, j));
-                        get_panel(i, j).repaint();
+                    mazeMap.put(get_panel(i, j), new ClearVertex(get_panel(i, j), i, j));
+                    get_panel(i, j).repaint();
 
                 }
             }
         }
-        mazeMap.put(get_panel(entry[0], entry[1]), new Entry(get_panel( entry[0], entry[1]), entry[0], entry[1]));
-        mazeMap.put(get_panel(exit[0], exit[1]), new Exit(get_panel( exit[0], exit[1]), exit[0], exit[1]));
+        mazeMap.put(get_panel(entry[0], entry[1]), new Entry(get_panel(entry[0], entry[1]), entry[0], entry[1]));
+        mazeMap.put(get_panel(exit[0], exit[1]), new Exit(get_panel(exit[0], exit[1]), exit[0], exit[1]));
     }
 
     public static void Save_Map() {//save map to csv and update the boolean map
@@ -212,87 +224,74 @@ public static void Reset(){
                 }
             }
             writer.close();
-        }catch (Exception e){e.printStackTrace();}
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
-    public static void Show_Path(List<int[]> path){
-        if(!Path_Exist(path)) return;
-        for(int[] coordinate : path){
-            JPanel panel= get_panel(coordinate[0]   , coordinate[1]);
-            if(!(mazeMap.get(panel) instanceof Exit ||mazeMap.get(panel) instanceof Entry)){
+    public static void Show_Path(List<int[]> path) {
+        if (!Path_Exist(path)) return;
+        for (int[] coordinate : path) {
+            JPanel panel = get_panel(coordinate[0], coordinate[1]);
+            if (!(mazeMap.get(panel) instanceof Exit || mazeMap.get(panel) instanceof Entry)) {
                 panel.setBackground(Color.GREEN);
                 panel.repaint();
             }
         }
     }
 
-    public static boolean Path_Exist( List<int[]> path){
+    public static boolean Path_Exist(List<int[]> path) {
         if (path == null) return false;
-        if(path.size()==1)return false;
-        int last=path.size()-1;
-        int sedlast=path.size()-2;
-        if(city_block_distance( path.get(last)[0],path.get(last)[1], path.get(sedlast)[0],  path.get(sedlast)[1])>1)
-                return false;
+        if (path.size() == 1) return false;
+        int last = path.size() - 1;
+        int sedlast = path.size() - 2;
+        if (city_block_distance(path.get(last)[0], path.get(last)[1], path.get(sedlast)[0], path.get(sedlast)[1]) > 1)
+            return false;
 
         return true;
     }
 
-    public static boolean Entry_Exist(){
-        for(JPanel jPanel :mazeMap.keySet()){
-            if(mazeMap.get(jPanel) instanceof Entry) return true;
+    public static boolean Entry_Exist() {
+        for (JPanel jPanel : mazeMap.keySet()) {
+            if (mazeMap.get(jPanel) instanceof Entry) return true;
         }
         return false;
     }
 
     public static JPanel Get_Entry() {
-        for(JPanel jPanel :mazeMap.keySet()){
-            if(mazeMap.get(jPanel) instanceof Entry) return jPanel;
+        for (JPanel jPanel : mazeMap.keySet()) {
+            if (mazeMap.get(jPanel) instanceof Entry) return jPanel;
         }
         return null;
     }
 
-    public static boolean Exit_Exist(){
-        for(JPanel jPanel :mazeMap.keySet()){
-            if(mazeMap.get(jPanel) instanceof Exit) return true;
+    public static boolean Exit_Exist() {
+        for (JPanel jPanel : mazeMap.keySet()) {
+            if (mazeMap.get(jPanel) instanceof Exit) return true;
         }
         return false;
     }
 
     public static JPanel Get_Exit() {
-        for(JPanel jPanel :mazeMap.keySet()){
-            if(mazeMap.get(jPanel) instanceof Exit) return jPanel;
+        for (JPanel jPanel : mazeMap.keySet()) {
+            if (mazeMap.get(jPanel) instanceof Exit) return jPanel;
         }
         return null;
     }
 
 
 
-//    public static void movePlayerUp() {
-//        if (Jerry.playerRow > 0 && !(mazeMap.get(get_panel(Jerry.playerRow - 1, Jerry.playerRow)) instanceof Barrier)) {
-//            mazeMap.put(get_panel(Jerry.playerRow, Jerry.playerRow), new ClearVertex(get_panel(Jerry.playerRow, Jerry.playerRow), Jerry.playerRow, Jerry.playerRow));
-//            Jerry.playerRow--;
-//            mazeMap.put(get_panel(Jerry.playerRow, Jerry.playerRow), new Jerry(get_panel(Jerry.playerRow, Jerry.playerRow), Jerry.playerRow, Jerry.playerRow));
-//            //updateChasePosition();
-//            gridPanel.repaint();
-//        }
-//    }
+    public void  play_game(){
+        List<int[]> path = new ArrayList<>();
+        JFrame newFrame=new JFrame("Moving Object");
 
+        MovingObject movingObject = new MovingObject(path);
+        newFrame.add(movingObject);
+        newFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        newFrame.pack();
+        newFrame.setVisible(true);
+        movingObject.startTimer();
 
-//    public static void init_Jerry(){
-//        JPanel entry=Get_Entry();
-//        mazeMap.put(entry, new Jerry(entry, mazeMap.get(entry).x,  mazeMap.get(entry).y));
-//    }
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 }
 

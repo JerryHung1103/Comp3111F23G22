@@ -7,10 +7,10 @@ import java.awt.event.ActionListener;
 import Game_Component.*;//my package
 
 public class RightClickListener extends MouseAdapter {
-    public static JPopupMenu popupMenu = new JPopupMenu();
+    public static JPopupMenu popupMenu ;
     public static void showPopupMenu(MouseEvent e, JPanel jPanel) {
 
-
+        popupMenu = new JPopupMenu();
         JMenuItem entryItem = new JMenuItem("Entry");
         entryItem.addActionListener(new ActionListener() {
             @Override

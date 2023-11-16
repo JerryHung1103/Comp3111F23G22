@@ -35,6 +35,23 @@ public class TestMovingObject {
         movingObject.TomX=20;
         movingObject.TomY=20;
     }
+    @Test
+    public void test_constructor(){
+        assertNotNull(movingObject.optionPane);
+        assertNotNull(movingObject.exitProgram);
+        assertNotNull(movingObject.TomX);
+        assertNotNull(movingObject.TomY);
+        assertNotNull(movingObject.JerryX);
+        assertNotNull(movingObject.JerryY);
+        assertNotNull(movingObject.tomImage);
+        assertNotNull(movingObject.jerryImage);
+        assertNotNull(movingObject.exitImage);
+        assertNotNull(movingObject.gameEnded);
+        assertNotNull(movingObject.barriers);
+        assertNotNull(movingObject.pathIndex);
+        assertNotNull(movingObject.path);
+
+    }
 @Test
 public void testValidMove(){
     assertTrue(movingObject.isValidMove(movingObject.JerryX+1, movingObject.JerryY)&&

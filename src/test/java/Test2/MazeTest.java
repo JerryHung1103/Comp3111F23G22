@@ -13,9 +13,25 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class MazeTest {
 
     private final static Maze maze=new Maze(false);
-    @Before
-    public void setUp() {
-        Maze.Reset();
+    @Test
+    public void constructor() {
+
+        assertNotNull(maze.mazeMap);
+        assertNotNull(maze.gridPanel);
+        assertNotNull(maze.confirmButton);
+        assertNotNull(maze.tempPanel);
+        assertNotNull(maze.exit);
+        assertNotNull(maze.entry);
+        assertNotNull(maze.jFrame);
+        assertNull(maze.movingObject);
+        assertNotNull(maze.instructionsPanel);
+        assertNotNull(maze.mapPanel);
+        assertNotNull(maze.instructionButton);
+        assertNotNull(maze.cardLayout);
+        assertNotNull(maze.cardContainer);
+        assertNotNull(maze.go_back);
+        assertNotNull(maze.instruction);
+
     }
     @Test
     void testEntryExist(){
@@ -114,4 +130,14 @@ public class MazeTest {
             assertTrue(Maze.mazeMap.get(jPanel) instanceof ClearVertex);
         }
     }
+
+//    @Test
+//    public void Test() {
+//        Maze.Reset();
+//        for(JPanel jPanel: Maze.mazeMap.keySet()){
+//            assertTrue(Maze.mazeMap.get(jPanel) instanceof ClearVertex);
+//        }
+//    }
+
+
 }

@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+
 public class PanelDragListener extends MouseAdapter {
 
     private int xOffset=0;
@@ -29,33 +30,34 @@ public class PanelDragListener extends MouseAdapter {
     public static class PanelMouseListener extends MouseAdapter {
         @Override
         public void mouseReleased(MouseEvent e) {
-            if (e.getButton() == MouseEvent.BUTTON1) {
-                JPanel original = (JPanel) e.getSource();
-                Maze.tempPanel.setLocation(-1000, -1000);
-                JPanel releasedComponent = (JPanel) Maze.gridPanel.getComponentAt(Maze.gridPanel.getMousePosition());
-                if (Maze.mazeMap.get(original) instanceof Barrier) {
+            try {
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    JPanel original = (JPanel) e.getSource();
+                    Maze.tempPanel.setLocation(-1000, -1000);
+                    JPanel releasedComponent = (JPanel) Maze.gridPanel.getComponentAt(Maze.gridPanel.getMousePosition());
+                    if (Maze.mazeMap.get(original) instanceof Barrier) {
 
-                    if (original.equals(releasedComponent)) {
-                        VertexLocation vertex = new ClearVertex(original, Maze.mazeMap.get(original).x, Maze.mazeMap.get(original).y);
-                        Maze.mazeMap.put(original, vertex);
-                    }
-                    else if (Maze.mazeMap.get(releasedComponent) instanceof Barrier) {
-                        VertexLocation vertex = new Barrier(original, Maze.mazeMap.get(original).x, Maze.mazeMap.get(original).y);
-                        Maze.mazeMap.put(original, vertex);
-                        original.setVisible(true);
-                        Maze.tempPanel.setVisible(true);
+                        if (original.equals(releasedComponent)) {
+                            VertexLocation vertex = new ClearVertex(original, Maze.mazeMap.get(original).x, Maze.mazeMap.get(original).y);
+                            Maze.mazeMap.put(original, vertex);
+                        } else if (Maze.mazeMap.get(releasedComponent) instanceof Barrier) {
+                            VertexLocation vertex = new Barrier(original, Maze.mazeMap.get(original).x, Maze.mazeMap.get(original).y);
+                            Maze.mazeMap.put(original, vertex);
+                            original.setVisible(true);
+                            Maze.tempPanel.setVisible(true);
+                        } else {
+                            VertexLocation vertex = new ClearVertex(original, Maze.mazeMap.get(original).x, Maze.mazeMap.get(original).y);
+                            Maze.mazeMap.put(original, vertex);
+                            original.setVisible(true);
+                            Maze.tempPanel.setVisible(true);
+
+                            Maze.mazeMap.put(releasedComponent, new Barrier(releasedComponent, Maze.mazeMap.get(releasedComponent).x, Maze.mazeMap.get(releasedComponent).y));
+                        }
                     } else {
-                        VertexLocation vertex = new ClearVertex(original, Maze.mazeMap.get(original).x, Maze.mazeMap.get(original).y);
-                        Maze.mazeMap.put(original, vertex);
-                        original.setVisible(true);
-                        Maze.tempPanel.setVisible(true);
-
-                        Maze.mazeMap.put(releasedComponent, new Barrier(releasedComponent, Maze.mazeMap.get(releasedComponent).x, Maze.mazeMap.get(releasedComponent).y));
+                        Maze.mazeMap.put(original, new Barrier(original, Maze.mazeMap.get(original).x, Maze.mazeMap.get(original).y));
                     }
-                } else {
-                    Maze.mazeMap.put(original, new Barrier(original, Maze.mazeMap.get(original).x, Maze.mazeMap.get(original).y));
                 }
-            }
+            }catch (Exception ee){}
         }
     }
 }

@@ -31,6 +31,18 @@ public class Maze extends JFrame {
 
     public static Map<JPanel, VertexLocation> mazeMap;
     public MovingObject movingObject=null;
+    public JPanel instructionsPanel;
+    public JPanel mapPanel;
+    public JButton instructionButton;
+
+    public CardLayout cardLayout;
+    public static JPanel cardContainer;
+    public JButton goBackButton; // Add the "Go Back" button
+
+    public ActionListener go_back=e->cardLayout.show(cardContainer, "Map");
+
+    public ActionListener instruction=e->cardLayout.show(cardContainer, "Instructions");
+
 
     public Maze(Boolean Visible) {
         mazeMap = new HashMap<>();
@@ -41,7 +53,6 @@ public class Maze extends JFrame {
         JButton autoGenerateButton = new JButton("Auto-generate maze");
         Auto_generate_map_Button listener = new Auto_generate_map_Button();
         autoGenerateButton.addMouseListener(listener);
-
 
         Confirm_Button confirmListener = new Confirm_Button();
         confirmButton.addMouseListener(confirmListener);
@@ -71,12 +82,53 @@ public class Maze extends JFrame {
         tempPanel.addMouseListener(new PanelDragListener.PanelMouseListener());
         tempPanel.setVisible(false);
         jFrame.getContentPane().add(tempPanel);
-        jFrame.getContentPane().add(gridPanel);
-        jFrame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+
+        instructionsPanel = new JPanel();
+        instructionsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        instructionsPanel.add(new JLabel("<html><span style='font-family: Arial; font-size: 20px; color: #FF0000;'><b>Instructions:</b><br>"
+                +"<p></p>"
+                + "You can left-click to draw or clean walls on the grid.<br>"
+                + "You can drag the walls to another position on the grid.<br>"
+                + "You can left-click the clean vertex to input the entry and exit on the grid.<br>"
+                + "You can click 'Auto-generate maze' to generate a maze automatically.<br>"
+                + "You can click 'Confirm' to save the maze and play the game.<br>"
+                + "! Have fun exploring the maze !</html>"));
+        goBackButton = new JButton("Go Back"); // Create the "Go Back" button
+        goBackButton.addActionListener(go_back);
+
+        JPanel instructionsButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        instructionsButtonPanel.add(goBackButton); // Add the "Go Back" button to the instructions panel
+
+        instructionsPanel.add(instructionsButtonPanel, BorderLayout.SOUTH); // Add the button panel to the instructions panel
+
+        mapPanel = new JPanel();
+        mapPanel.setLayout(new BorderLayout());
+        mapPanel.add(gridPanel, BorderLayout.CENTER);
+
+
+        instructionButton = new JButton("Instructions");
+        instructionButton.addActionListener(instruction);
+
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.add(mapPanel, BorderLayout.CENTER);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        cardLayout = new CardLayout();
+        cardContainer = new JPanel(cardLayout);
+        cardContainer.add(mainPanel, "Map");
+        cardContainer.add(instructionsPanel, "Instructions");
+
+        jFrame.getContentPane().setLayout(new BorderLayout());
+        jFrame.getContentPane().add(cardContainer, BorderLayout.CENTER);
+        jFrame.getContentPane().add(instructionButton, BorderLayout.NORTH);
+
         jFrame.pack();
         jFrame.setLocationRelativeTo(null);
         jFrame.setVisible(Visible);
+        jFrame.setResizable(true);
     }
+
 
 
     public static void Reset() {
@@ -269,7 +321,8 @@ public class Maze extends JFrame {
         movingObject = new MovingObject(path);
         newFrame.add(movingObject);
         newFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        newFrame.pack();
         newFrame.setVisible(visible);
+        newFrame.setResizable(true);
+        newFrame.pack();
         movingObject.startTimer();}}
 

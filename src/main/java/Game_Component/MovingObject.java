@@ -20,7 +20,7 @@ import static Algorithm.PathFinder.findShortestPath;
 
 
 public class MovingObject extends JPanel implements KeyListener {
-    private OptionPane optionPane = ( parentComponent,  message,  title,  optionType,  messageType)-> JOptionPane.showConfirmDialog(parentComponent,message,title,optionType,messageType);
+    public OptionPane optionPane = ( parentComponent,  message,  title,  optionType,  messageType)-> JOptionPane.showConfirmDialog(parentComponent,message,title,optionType,messageType);
     public Exit_Program exitProgram = ()->System.exit(0);
     public int TomX;
     public int TomY;
@@ -38,6 +38,7 @@ public class MovingObject extends JPanel implements KeyListener {
     public int pathIndex;
 
 
+
     public MovingObject(List<int[]> path) {
 
 
@@ -53,17 +54,13 @@ public class MovingObject extends JPanel implements KeyListener {
         pathIndex = 0;
         addKeyListener(this);
         setFocusable(true);
+
         setPreferredSize(new Dimension(900, 900));
         String tom="src/main/java/Game_Component/tom.png";
         String jerry="src/main/java/Game_Component/Jerry.png";
         String exit="src/main/java/Game_Component/exit.jpg";
         setImage(tom,jerry,exit);
-//        try {
-//            tomImage = ImageIO.read(new File("src/main/java/Game_Component/tom.png"));
-//            jerryImage = ImageIO.read(new File("src/main/java/Game_Component/Jerry.png"));
-//            exitImege = ImageIO.read(new File("src/main/java/Game_Component/exit.jpg"));
-//        } catch (IOException e) {
-//        }
+
     }
     public void setImage(String Tom, String Jerry, String Exit ){
         try {
@@ -77,21 +74,22 @@ public class MovingObject extends JPanel implements KeyListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int imgWidth = 30; // replace with desired width
-        int imgHeight = 30; // replace with desired height
-
-        //tom and jerry x&y need *30 for some reason...
-        g.drawImage(exitImage, Maze.mazeMap.get(Maze.Get_Exit()).y*30, Maze.mazeMap.get(Maze.Get_Exit()).x*30, imgWidth, imgHeight, this);
-        g.drawImage(tomImage, TomX*30, TomY*30, imgWidth, imgHeight, this);
-        g.drawImage(jerryImage, JerryX*30, JerryY*30, imgWidth, imgHeight, this);
-
+        int panelWidth = getWidth();
+        int panelHeight = getHeight();
+        int imgWidth = panelWidth / 30; // Calculate the width of the images based on panel size
+        int imgHeight = panelHeight / 30; // Calculate the height of the images based on panel size
+        // Draw exit
+        g.drawImage(exitImage, Maze.mazeMap.get(Maze.Get_Exit()).y * imgWidth, Maze.mazeMap.get(Maze.Get_Exit()).x * imgHeight, imgWidth, imgHeight, this);
+        // Draw Tom
+        g.drawImage(tomImage, TomX * imgWidth, TomY * imgHeight, imgWidth, imgHeight, this);
+        // Draw Jerry
+        g.drawImage(jerryImage, JerryX * imgWidth, JerryY * imgHeight, imgWidth, imgHeight, this);
         g.setColor(Color.BLACK);
-
         // Draw barriers
         for (int i = 0; i < 30; i++) {
             for (int j = 0; j < 30; j++) {
                 if (barriers[i][j] == 1) {
-                    g.fillRect(i * 30, j* 30, 30, 30);
+                    g.fillRect(i * imgWidth, j * imgHeight, imgWidth, imgHeight);
                 }
             }
         }
@@ -214,15 +212,16 @@ public class MovingObject extends JPanel implements KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {//Do nothing but I have to implement the abstract method =.=
+    public void keyTyped(KeyEvent e) {//Do nothing, but I have to implement the abstract method =.=
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        //Do nothing, but I have to implement the abstract method =.=
     }
 
     public void startTimer() {
-        int delay = 500; // Delay between each step (500 milliseconds)
+        int delay = 250; // Delay between each step (500 milliseconds)
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 followPath();

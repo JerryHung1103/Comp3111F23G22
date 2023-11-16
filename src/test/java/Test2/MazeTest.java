@@ -60,7 +60,7 @@ public class MazeTest {
     }
     @Test
     public void testAutoGenerateMap() {
-        int[][] generatedMap = Maze.Auto_Generate_Map();
+        int[][] generatedMap = Maze.Auto_Generate_Map(0.75);
         assertEquals(Maze.ROWS, generatedMap.length);
         assertEquals(Maze.COLS, generatedMap[0].length);
         for (int i = 0; i < Maze.ROWS; i++) {
@@ -103,7 +103,7 @@ public class MazeTest {
     }
     @Test
     public void testAutoGenerateMaze() {
-        Maze.Auto_Generate_Maze();
+        Maze.Auto_Generate_Maze(0.75);
         List<int[]> path = findShortestPath(Maze.map,Maze.entry[0],Maze.entry[1], Maze.exit[0], Maze.exit[1]);
         assertTrue(Maze.Path_Exist(path));
     }

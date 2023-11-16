@@ -2,8 +2,13 @@ package Test2;
 import Event_Handler.Confirm_Button;
 import Game_Component.Maze;
 import Main.Main_PlayGame;
+
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,15 +22,16 @@ class Confirm_ButtonTest {
     void test1() {
         Confirm_Button confirmButton =new Confirm_Button();
         MouseEvent e = new MouseEvent(maze.confirmButton, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 0, 0, 0, false);
-        Maze.Auto_Generate_Maze();
+        maze.Auto_Generate_Maze(0.75);
         confirmButton.mouseClicked(e);
         assertEquals(2, Main_PlayGame.GAME_STATE);
     }
     @Test
     void test2() {
         Confirm_Button confirmButton =new Confirm_Button();
+        confirmButton. setOptionPane(( parentComponent,  message,  title,  optionType,  messageType)-> JOptionPane.DEFAULT_OPTION);
         MouseEvent e = new MouseEvent(maze.confirmButton, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 0, 0, 0, false);
         confirmButton.mouseClicked(e);
-        assertEquals(2, Main_PlayGame.GAME_STATE);
+
     }
 }

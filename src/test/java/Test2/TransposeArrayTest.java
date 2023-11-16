@@ -1,11 +1,11 @@
 package Test2;
-
 import Algorithm.TransposeArray;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class TransposeArrayTest {
+    private TransposeArray transposeArray=new TransposeArray();
+
     @Test
     void Test_TransposeArray(){
         int[][] input = {
@@ -13,7 +13,7 @@ class TransposeArrayTest {
                 {4, 5, 6},
                 {7, 8, 9}
         };
-        int[][] actual = TransposeArray.T(input);
+        int[][] actual = transposeArray.T(input);
         int[][]expected={
                 {1 ,4 ,7},
                 {2,5,8},

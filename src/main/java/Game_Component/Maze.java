@@ -30,6 +30,7 @@ public class Maze extends JFrame {
     public static JFrame jFrame = new JFrame();
 
     public static Map<JPanel, VertexLocation> mazeMap;
+    public MovingObject movingObject=null;
 
     public Maze(Boolean Visible) {
         mazeMap = new HashMap<>();
@@ -78,23 +79,6 @@ public class Maze extends JFrame {
     }
 
 
-    //    public void load_maze() {//load the grid as boolean map
-//        for (int i = 0; i < ROWS; i++) {
-//            for (int j = 0; j < COLS; j++) {
-//                if (map[i][j] == 1) {
-//                    if (!(mazeMap.get(get_panel(i, j)) instanceof Barrier)) {
-//                        mazeMap.put(get_panel(i, j), new Barrier(get_panel(i, j), i, j));
-//                         get_panel(i, j).repaint();
-//                    }
-//                } else if (map[i][j] == 0) {
-//                    if (!(mazeMap.get(get_panel(i, j)) instanceof ClearVertex)) {
-//                        mazeMap.put(get_panel(i, j), new ClearVertex(get_panel(i, j), i, j));
-//                        get_panel(i, j).repaint();
-//                    }
-//                }
-//            }
-//        }
-//    }
     public static void Reset() {
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
@@ -119,21 +103,13 @@ public class Maze extends JFrame {
         return null;
     }
 
-    //    public VertexLocation Get_Vertex(int row, int col) {
-//        for (VertexLocation vertexLocation : mazeMap.values()) {
-//            if (vertexLocation.x == row && vertexLocation.y == col) {
-//                return vertexLocation;
-//            }
-//        }
-//        return null;
-//    }
-    public static int[][] Auto_Generate_Map() {
+    public static int[][] Auto_Generate_Map(double ratio) {
         int[][] map = new int[ROWS][COLS];
         while (true) {
             Random rand = new Random();
             for (int i = 0; i < ROWS; i++) {
                 for (int j = 0; j < COLS; j++) {
-                    if (rand.nextDouble() < 0.75) {
+                    if (rand.nextDouble() < ratio) {
                         map[i][j] = 0;
                     } else {
                         map[i][j] = 1;
@@ -144,8 +120,7 @@ public class Maze extends JFrame {
             exit = getRandomBoundaryPoint(map);
             List<int[]> path = findShortestPath(map, entry[0], entry[1], exit[0], exit[1]);
             if (Maze.Path_Exist(path))
-                break;
-        }
+                break;}
         return map;
     }
 
@@ -177,8 +152,8 @@ public class Maze extends JFrame {
         return point;
     }
 
-    public static void Auto_Generate_Maze() {
-        map = Auto_Generate_Map();
+    public static void Auto_Generate_Maze(double ratio) {
+        map = Auto_Generate_Map(ratio);
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
                 if (map[i][j] == 1) {
@@ -187,10 +162,8 @@ public class Maze extends JFrame {
                         get_panel(i, j).repaint();
                     }
                 } else if (map[i][j] == 0) {
-
                     mazeMap.put(get_panel(i, j), new ClearVertex(get_panel(i, j), i, j));
                     get_panel(i, j).repaint();
-
                 }
             }
         }
@@ -224,9 +197,7 @@ public class Maze extends JFrame {
                 }
             }
             writer.close();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        }catch ( IOException | RuntimeException e){}
     }
 
     public static void Show_Path(List<int[]> path) {
@@ -247,8 +218,19 @@ public class Maze extends JFrame {
         int sedlast = path.size() - 2;
         if (city_block_distance(path.get(last)[0], path.get(last)[1], path.get(sedlast)[0], path.get(sedlast)[1]) > 1)
             return false;
-
         return true;
+    }
+
+    public static boolean Path_Exist() {
+        Save_Map();
+        if(!Entry_Exist() || !Exit_Exist())return false;
+        int startRow=Maze.mazeMap.get(Maze.Get_Entry()).x;
+        int startCol=Maze.mazeMap.get(Maze.Get_Entry()).y;
+        int endRow=Maze.mazeMap.get(Maze.Get_Exit()).x;
+        int endCol=Maze.mazeMap.get(Maze.Get_Exit()).y;
+
+        List<int[]> shortestPath = findShortestPath(Maze.map, startRow, startCol, endRow, endCol);
+        return shortestPath != null;
     }
 
     public static boolean Entry_Exist() {
@@ -281,17 +263,13 @@ public class Maze extends JFrame {
 
 
 
-    public void  play_game(){
+    public void  play_game(boolean visible){
         List<int[]> path = new ArrayList<>();
         JFrame newFrame=new JFrame("Moving Object");
-
-        MovingObject movingObject = new MovingObject(path);
+        movingObject = new MovingObject(path);
         newFrame.add(movingObject);
         newFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         newFrame.pack();
-        newFrame.setVisible(true);
-        movingObject.startTimer();
-
-    }
-}
+        newFrame.setVisible(visible);
+        movingObject.startTimer();}}
 

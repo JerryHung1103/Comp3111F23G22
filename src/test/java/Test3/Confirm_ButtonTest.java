@@ -1,14 +1,10 @@
-package Test2;
+package Test3;
 import Event_Handler.Confirm_Button;
 import Game_Component.Maze;
 import Main.Main_PlayGame;
-
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
-
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import static org.junit.jupiter.api.Assertions.*;
 

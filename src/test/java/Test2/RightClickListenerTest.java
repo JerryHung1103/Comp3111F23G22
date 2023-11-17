@@ -1,4 +1,4 @@
-package Test1;
+package Test2;
 import Event_Handler.RightClickListener;
 import Game_Component.*;
 import org.junit.Before;

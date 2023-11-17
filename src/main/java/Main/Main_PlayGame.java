@@ -1,23 +1,28 @@
 package Main;
 import Game_Component.*;//my package
-import My_Functional_Interface.Stage_0;
-import My_Functional_Interface.Stage_2;
+import My_Functional_Interface.Do_Something;
 
 import java.util.ArrayList;
 import java.util.List;
 import static Algorithm.PathFinder.*;
 
 public class Main_PlayGame {
-    static public int GAME_STATE =0;
-    static Maze maze;;
-    public static Stage_0 stage0 = ()-> maze=new Maze(true);
-    public static Stage_2 stage2= ()-> maze.play_game(true);
+    static public int GAME_STATE =-1;
+    public static Maze maze;;
+    public static Do_Something stage0 = ()-> maze=new Maze(true);
+    public static Do_Something stage2= ()-> maze.play_game(true);
+    public static Do_Something stage_init= ()->  Maze.createUI(true);
 
-    static List<int[]> shortestPath=new ArrayList<>();
+    public static List<int[]> shortestPath=new ArrayList<>();
 
     public static void main(String [] args){
+        if(GAME_STATE==-1){
+            stage_init.do_Something();
+        }
+
+
         if(GAME_STATE==0){
-            stage0.newmap();
+            stage0.do_Something();
         }
 
          if(GAME_STATE==1){
@@ -41,10 +46,10 @@ public class Main_PlayGame {
             main(new String[2]);
         }
 
-        else if(GAME_STATE==2){
+         if(GAME_STATE==2){
             System.out.println("play");
          if(maze!=null)
-             stage2.play();
+             stage2.do_Something();
         }
     }
 }

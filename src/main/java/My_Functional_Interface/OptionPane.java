@@ -2,7 +2,7 @@ package My_Functional_Interface;
 
 import javax.swing.*;
 import java.awt.*;
-
+@FunctionalInterface
 public interface OptionPane {
     /**
      *  @see JOptionPane#showConfirmDialog(Component, Object, String, int, int);

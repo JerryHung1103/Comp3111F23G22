@@ -1,7 +1,6 @@
-package Test2;
+package Test3;
 import Game_Component.ClearVertex;
 import Game_Component.Maze;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +35,7 @@ public class MazeTest {
     @Test
     void testEntryExist(){
         assertFalse(maze.Entry_Exist());
-        //since we didn't up the Exist, so it is expected to be false
+        //since we didn't input the Exist, so it is expected to be false
     }
 
     @Test
@@ -122,6 +121,10 @@ public class MazeTest {
         Maze.Auto_Generate_Maze(0.75);
         List<int[]> path = findShortestPath(Maze.map,Maze.entry[0],Maze.entry[1], Maze.exit[0], Maze.exit[1]);
         assertTrue(Maze.Path_Exist(path));
+        assertTrue(Maze.Exit_Exist());
+        assertTrue(Maze.Entry_Exist());
+        assertNotNull(Maze.Get_Exit());
+        assertNotNull(Maze.Get_Entry());
     }
     @Test
     public void TestReset() {

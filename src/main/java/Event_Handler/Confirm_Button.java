@@ -20,7 +20,7 @@ public class Confirm_Button extends MouseAdapter {
     public void mouseClicked(MouseEvent e) {
         if (Maze.Entry_Exist() && Maze.Exit_Exist()&& Path_Exist()) {
             Maze.Save_Map();
-            Main_PlayGame.GAME_STATE++;
+            Main_PlayGame.GAME_STATE=2;
             Main_PlayGame.main(new String[0]);
         } else {
             String message = "";

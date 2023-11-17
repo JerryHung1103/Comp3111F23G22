@@ -1,5 +1,6 @@
-package Main;
+package Test0;
 import Game_Component.Maze;
+import Main.Main_PlayGame;
 import org.junit.jupiter.api.Test;
 import static Main.Main_PlayGame.maze;
 import static org.junit.jupiter.api.Assertions.*;
@@ -8,6 +9,13 @@ class Main_PlayGameTest {
     private Main_PlayGame mainPlayGame=new Main_PlayGame();
     @Test
     void main() {
+        mainPlayGame.GAME_STATE=-1;
+        mainPlayGame.stage_init =()-> Maze.createUI(false);
+        mainPlayGame.main(new String[0]);
+        assertNull(mainPlayGame.maze);
+        //The maze is not initialized yet
+
+
         mainPlayGame.GAME_STATE=0;
         mainPlayGame.stage0 =()-> Main_PlayGame.maze=new Maze(false);
         mainPlayGame.main(new String[0]);

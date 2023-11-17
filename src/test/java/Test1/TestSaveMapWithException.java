@@ -1,4 +1,4 @@
-package Test0;
+package Test1;
 import Game_Component.Maze;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

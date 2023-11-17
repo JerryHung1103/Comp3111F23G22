@@ -1,20 +1,18 @@
 package Game_Component;//my package
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 import java.util.List;
+import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.Timer;
-
 import Event_Handler.*;
+import Main.Main_PlayGame;
+import My_Functional_Interface.Do_Something;
 
 import static Algorithm.PathFinder.city_block_distance;
 import static Algorithm.PathFinder.findShortestPath;
-import static java.lang.Math.abs;
 
 public class Maze extends JFrame {
     public static JPanel gridPanel = new JPanel();
@@ -30,7 +28,7 @@ public class Maze extends JFrame {
     public static JFrame jFrame = new JFrame();
 
     public static Map<JPanel, VertexLocation> mazeMap;
-    public MovingObject movingObject=null;
+    public static MovingObject movingObject=null;
     public JPanel instructionsPanel;
     public JPanel mapPanel;
     public JButton instructionButton;
@@ -43,19 +41,64 @@ public class Maze extends JFrame {
 
     public ActionListener instruction=e->cardLayout.show(cardContainer, "Instructions");
 
+    public static Do_Something start=()-> {jFrame.dispose();jFrame=null;Main_PlayGame.GAME_STATE++;Main_PlayGame.main(new String[0]);};
+
+    public static String bg_image="src/main/java/Game_Component/background.jpg";
+
+    public static void createUI(Boolean Visible) {
+        jFrame.setTitle("Group 22 - Game Project");
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.setSize(900, 900);
+        JPanel mainPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                BufferedImage backgroundImage = null;
+                try {
+                    backgroundImage = ImageIO.read(new File(bg_image));
+                } catch (IOException e) {}
+                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        mainPanel.setLayout(new BorderLayout());
+
+        JLabel welcomeLabel = new JLabel("<html><center>Welcome! Get ready to play the game!</center></html>");
+        welcomeLabel.setHorizontalAlignment(JLabel.CENTER);
+        welcomeLabel.setFont(welcomeLabel.getFont().deriveFont(Font.BOLD, 24));
+        mainPanel.add(welcomeLabel, BorderLayout.NORTH);
+        JButton startButton;
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        startButton = new JButton("Start");
+        startButton.setFont(startButton.getFont().deriveFont(Font.BOLD, 18)); // Increased button text size
+//        startButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+////                jFrame.setVisible(false);
+//                jFrame.dispose();
+//                jFrame=null;
+//                Main_PlayGame.GAME_STATE++;
+//                Main_PlayGame.main(new String[0]);
+//            }
+//        });
+        startButton.addActionListener(e->start.do_Something());
+
+        buttonPanel.setOpaque(false);
+        buttonPanel.add(startButton);
+        mainPanel.add(buttonPanel, BorderLayout.CENTER);
+        jFrame.getContentPane().add(mainPanel);
+        jFrame.setVisible(Visible);
+    }
 
     public Maze(Boolean Visible) {
         mazeMap = new HashMap<>();
-
+        jFrame = new JFrame();
         jFrame.setTitle("Have Fun!!!");
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JButton autoGenerateButton = new JButton("Auto-generate maze");
-        Auto_generate_map_Button listener = new Auto_generate_map_Button();
-        autoGenerateButton.addMouseListener(listener);
+        autoGenerateButton.addMouseListener(new Auto_generate_map_Button());
 
-        Confirm_Button confirmListener = new Confirm_Button();
-        confirmButton.addMouseListener(confirmListener);
+        confirmButton.addMouseListener( new Confirm_Button());
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(autoGenerateButton);
@@ -86,20 +129,21 @@ public class Maze extends JFrame {
         instructionsPanel = new JPanel();
         instructionsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         instructionsPanel.add(new JLabel("<html><span style='font-family: Arial; font-size: 20px; color: #FF0000;'><b>Instructions:</b><br>"
-                +"<p></p>"
+                +"<p>=======================================================</p>"
                 + "You can left-click to draw or clean walls on the grid.<br>"
                 + "You can drag the walls to another position on the grid.<br>"
                 + "You can left-click the clean vertex to input the entry and exit on the grid.<br>"
                 + "You can click 'Auto-generate maze' to generate a maze automatically.<br>"
                 + "You can click 'Confirm' to save the maze and play the game.<br>"
-                + "! Have fun exploring the maze !</html>"));
+                +"<p>=======================================================</p>"
+                + "<span style='font-family: Arial; font-size: 20px; color: #FF0000;'> Have fun !</html>"));
         goBackButton = new JButton("Go Back"); // Create the "Go Back" button
         goBackButton.addActionListener(go_back);
 
         JPanel instructionsButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        instructionsButtonPanel.add(goBackButton); // Add the "Go Back" button to the instructions panel
+        instructionsButtonPanel.add(goBackButton); // Add the "Go Back"
 
-        instructionsPanel.add(instructionsButtonPanel, BorderLayout.SOUTH); // Add the button panel to the instructions panel
+        instructionsPanel.add(instructionsButtonPanel, BorderLayout.SOUTH); // Add the button panel
 
         mapPanel = new JPanel();
         mapPanel.setLayout(new BorderLayout());
@@ -315,7 +359,7 @@ public class Maze extends JFrame {
 
 
 
-    public void  play_game(boolean visible){
+    public  void   play_game(boolean visible){
         List<int[]> path = new ArrayList<>();
         JFrame newFrame=new JFrame("Moving Object");
         movingObject = new MovingObject(path);

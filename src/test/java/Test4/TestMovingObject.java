@@ -1,10 +1,7 @@
-package Test3;
+package Test4;
 import Event_Handler.Confirm_Button;
-
 import Game_Component.Maze;
 import Game_Component.MovingObject;
-import Main.Main_PlayGame;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import javax.swing.*;
@@ -24,12 +21,8 @@ public class TestMovingObject {
         maze.Auto_Generate_Maze(1);
          maze.Save_Map();
         List<int[]> path = new ArrayList<>();
-         newFrame = new JFrame();
          movingObject = new MovingObject(path);
-         newFrame.add(movingObject);
-         newFrame.setVisible(false);
-         movingObject.startTimer();
-        movingObject.setOptionPane(( parentComponent,  message,  title,  optionType,  messageType)->JOptionPane.YES_OPTION);
+        movingObject.optionPane=( parentComponent,  message,  title,  optionType,  messageType)->JOptionPane.YES_OPTION;
         movingObject.JerryX=10;
         movingObject.JerryY=10;
         movingObject.TomX=20;

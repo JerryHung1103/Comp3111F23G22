@@ -1,4 +1,4 @@
-package Test2;
+package Test3;
 import Event_Handler.Auto_generate_map_Button;
 import Game_Component.Maze;
 import org.junit.jupiter.api.Test;

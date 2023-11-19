@@ -14,6 +14,25 @@ public class Main_PlayGame {
     public static Do_Something stage_init= ()->  Maze.createUI(true);
 
     public static List<int[]> shortestPath=new ArrayList<>();
+    public static void stage1(){
+        System.out.println("Start main");
+        int startRow=Maze.mazeMap.get(Maze.Get_Entry()).x;
+        int startCol=Maze.mazeMap.get(Maze.Get_Entry()).y;
+        int endRow=Maze.mazeMap.get(Maze.Get_Exit()).x;
+        int endCol=Maze.mazeMap.get(Maze.Get_Exit()).y;
+
+        shortestPath = findShortestPath(Maze.map, startRow, startCol, endRow, endCol);
+        System.out.println("Shortest path:");
+        for (int[] position : shortestPath) {
+            System.out.print("[" + position[0] + ", " + position[1] + "] ");
+        }
+        System.out.println();
+        Maze.OutPut_Path_To_CSV("path.csv",shortestPath);
+
+        System.out.println("B=================================================================================================");
+        Maze.Show_Path(shortestPath);
+
+    }
 
     public static void main(String [] args){
         if(GAME_STATE==-1){
@@ -26,23 +45,8 @@ public class Main_PlayGame {
         }
 
          if(GAME_STATE==1){
-
-            System.out.println("Start main");
-            int startRow=Maze.mazeMap.get(Maze.Get_Entry()).x;
-            int startCol=Maze.mazeMap.get(Maze.Get_Entry()).y;
-            int endRow=Maze.mazeMap.get(Maze.Get_Exit()).x;
-            int endCol=Maze.mazeMap.get(Maze.Get_Exit()).y;
-
-            shortestPath = findShortestPath(Maze.map, startRow, startCol, endRow, endCol);
-            System.out.println("Shortest path:");
-                for (int[] position : shortestPath) {
-                    System.out.print("[" + position[0] + ", " + position[1] + "] ");
-                }
-                System.out.println();
-
-            System.out.println("B=================================================================================================");
-            Maze.Show_Path(shortestPath);
-            GAME_STATE++;
+            stage1();
+            GAME_STATE=2;
             main(new String[2]);
         }
 

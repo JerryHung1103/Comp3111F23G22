@@ -8,7 +8,7 @@ class Main_PlayGameTest {
     String Actual;
     private Main_PlayGame mainPlayGame=new Main_PlayGame();
     @Test
-    void main() {
+    void Test_main() {
         mainPlayGame.GAME_STATE=-1;
         mainPlayGame.stage_init =()-> Maze.createUI(false);
         mainPlayGame.main(new String[0]);

@@ -4,12 +4,27 @@ import Game_Component.Maze;
 import org.junit.jupiter.api.Test;
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import static Algorithm.PathFinder.findShortestPath;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 public class MazeTest {
+    private List<String> readCSVFile(String filePath) {
+        List<String> lines = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return lines;
+    }
 
     private final static Maze maze=new Maze(false);
     @Test
@@ -134,13 +149,28 @@ public class MazeTest {
         }
     }
 
-//    @Test
-//    public void Test() {
-//        Maze.Reset();
-//        for(JPanel jPanel: Maze.mazeMap.keySet()){
-//            assertTrue(Maze.mazeMap.get(jPanel) instanceof ClearVertex);
-//        }
-//    }
+    @Test
+    public void Test_output_path() {
+        List<int[]> path = null;
+        String outputPath = "test_path.csv";
+        Maze.OutPut_Path_To_CSV(outputPath,path);//exception test
+
+
+
+        path = new ArrayList<>();
+        path.add(new int[]{1, 2});
+        path.add(new int[]{3, 4});
+        path.add(new int[]{5, 6});
+
+        Maze.OutPut_Path_To_CSV(outputPath,path);
+        List<String> csvLines = readCSVFile(outputPath);
+        assertEquals("PathType,PathNo,Index,Row_X,Row_Y", csvLines.get(0));
+        assertEquals("SP,1,0,1,2;", csvLines.get(1));
+        assertEquals("SP,1,1,3,4;", csvLines.get(2));
+        assertEquals("SP,1,2,5,6;", csvLines.get(3));
+
+
+    }
 
 
 }

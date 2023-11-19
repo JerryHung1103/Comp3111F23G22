@@ -307,6 +307,19 @@ public class Maze extends JFrame {
         }
     }
 
+    public static void OutPut_Path_To_CSV(String filename, List<int[]> path) {
+        try (FileWriter writer = new FileWriter(filename)) {
+            writer.write("PathType,PathNo,Index,Row_X,Row_Y\n");
+            for (int i = 0; i < path.size(); i++) {
+                int[] point = path.get(i);
+                writer.write("SP,1," + i + "," + point[0] + "," + point[1] + ";\n");
+            }
+            System.out.println("CSV file exported successfully.");
+        } catch (IOException | NullPointerException e) {
+            System.out.println("CSV file exported fail.");
+        }
+    }
+
     public static boolean Path_Exist(List<int[]> path) {
         if (path == null) return false;
         if (path.size() == 1) return false;

@@ -29,7 +29,7 @@ public class Main_PlayGame {
         System.out.println();
         Maze.OutPut_Path_To_CSV("path.csv",shortestPath);
 
-        System.out.println("B=================================================================================================");
+        System.out.println("================================================================================================================================================================");
         Maze.Show_Path(shortestPath);
 
     }

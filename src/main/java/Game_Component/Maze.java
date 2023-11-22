@@ -48,7 +48,8 @@ public class Maze extends JFrame {
     public static void createUI(Boolean Visible) {
         jFrame.setTitle("Group 22 - Game Project");
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jFrame.setSize(900, 900);
+      //  jFrame.setSize(900, 900);
+        jFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         JPanel mainPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -70,16 +71,7 @@ public class Maze extends JFrame {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         startButton = new JButton("Start");
         startButton.setFont(startButton.getFont().deriveFont(Font.BOLD, 18)); // Increased button text size
-//        startButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-////                jFrame.setVisible(false);
-//                jFrame.dispose();
-//                jFrame=null;
-//                Main_PlayGame.GAME_STATE++;
-//                Main_PlayGame.main(new String[0]);
-//            }
-//        });
+
         startButton.addActionListener(e->start.do_Something());
 
         buttonPanel.setOpaque(false);
@@ -87,6 +79,7 @@ public class Maze extends JFrame {
         mainPanel.add(buttonPanel, BorderLayout.CENTER);
         jFrame.getContentPane().add(mainPanel);
         jFrame.setVisible(Visible);
+
     }
 
     public Maze(Boolean Visible) {
@@ -105,6 +98,8 @@ public class Maze extends JFrame {
         buttonPanel.add(confirmButton);
 
         gridPanel.setLayout(new GridLayout(ROWS, COLS));
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        gridPanel.setPreferredSize(screenSize);
 
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
@@ -120,11 +115,12 @@ public class Maze extends JFrame {
         }
 
         tempPanel.setBackground(Color.BLACK);
-        tempPanel.setBounds(-1000, -1000, SQUARE_SIZE, SQUARE_SIZE);
+        tempPanel.setBounds(-1000, -1000, SQUARE_SIZE+15, SQUARE_SIZE);
         tempPanel.addMouseMotionListener(new PanelDragListener());
         tempPanel.addMouseListener(new PanelDragListener.PanelMouseListener());
         tempPanel.setVisible(false);
         jFrame.getContentPane().add(tempPanel);
+
 
         instructionsPanel = new JPanel();
         instructionsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -166,11 +162,9 @@ public class Maze extends JFrame {
         jFrame.getContentPane().setLayout(new BorderLayout());
         jFrame.getContentPane().add(cardContainer, BorderLayout.CENTER);
         jFrame.getContentPane().add(instructionButton, BorderLayout.NORTH);
-
         jFrame.pack();
-        jFrame.setLocationRelativeTo(null);
         jFrame.setVisible(Visible);
-        jFrame.setResizable(true);
+
     }
 
 
@@ -381,5 +375,16 @@ public class Maze extends JFrame {
         newFrame.setVisible(visible);
         newFrame.setResizable(true);
         newFrame.pack();
-        movingObject.startTimer();}}
+
+        // Calculate the dimensions for half of the screen
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int width = screenSize.width / 2;
+        int height = screenSize.height;
+        int x = screenSize.width - width;
+        // Set the frame bounds to occupy half of the screen on the left side
+        newFrame.setBounds(0, 0, width, height);
+        movingObject.startTimer();
+        this.jFrame.setBounds(x, 0, width, height);
+    }
+}
 

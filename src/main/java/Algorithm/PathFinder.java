@@ -33,22 +33,22 @@ public class PathFinder {
         int rows = map.length;
         int cols = map[0].length;
         boolean[][] closed = new boolean[rows][cols];
-        int[][] distance = new int[rows][cols];
+        int[][] G_cost = new int[rows][cols];
         int[][] previous = new int[rows][cols];
 
         // Initialize distance array with maximum values
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                distance[i][j] = Integer.MAX_VALUE;
+                G_cost[i][j] = Integer.MAX_VALUE;
             }
         }
 
         // Initialize priority queue for A* algorithm
-        PriorityQueue<int[]> queue = new PriorityQueue<>((a, b) -> distance[a[0]][a[1]] - distance[b[0]][b[1]]);
+        PriorityQueue<int[]> queue = new PriorityQueue<>((a, b) -> G_cost[a[0]][a[1]] - G_cost[b[0]][b[1]]);
 
         // Add the start position to the queue
         queue.offer(new int[]{startRow, startCol});
-        distance[startRow][startCol] = 0;
+        G_cost[startRow][startCol] = 0;
 
         while (!queue.isEmpty()) {
             int[] current = queue.poll();
@@ -73,22 +73,23 @@ public class PathFinder {
 
                 // Check if the neighbor is within bounds and not blocked
                 if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols && map[newRow][newCol] != 1) {
-                    int newDistance = distance[row][col] + 1;
+                    int new_G_cost = G_cost[row][col] + 1;
 
                     // Update the distance and previous arrays if a shorter path is found
-                    if (newDistance < distance[newRow][newCol]) {
-                        distance[newRow][newCol] = newDistance;
+                    if (new_G_cost < G_cost[newRow][newCol]) {
+                        G_cost[newRow][newCol] = new_G_cost;
                         previous[newRow][newCol] = row * cols + col;
 
-                        int priority = newDistance + city_block_distance(newRow, newCol, endRow, endCol);
-                        queue.offer(new int[]{newRow, newCol, priority});
+                        int H_cost = city_block_distance(newRow, newCol, endRow, endCol);
+                        int F_cost = new_G_cost + H_cost;
+                        queue.offer(new int[]{newRow, newCol, F_cost});
                     }
                 }
             }
         }
 
         // Check if there is a valid path from start to end
-        if (distance[endRow][endCol] == Integer.MAX_VALUE) {
+        if (G_cost[endRow][endCol] == Integer.MAX_VALUE) {
             return null; // No path found
         }
 

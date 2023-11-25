@@ -20,7 +20,9 @@ public class RightClickListener extends MouseAdapter {
                     JPanel old_entry= Maze.Get_Entry();
                     Maze.mazeMap.put(old_entry, new ClearVertex(old_entry, Maze.mazeMap.get(old_entry).x, Maze.mazeMap.get(old_entry).y));
                 }
-              Maze.mazeMap.put(jPanel,new Entry(jPanel,Maze.mazeMap.get(jPanel).x, Maze.mazeMap.get(jPanel).y));
+                Maze.mazeMap.put(jPanel,new Entry(jPanel,Maze.mazeMap.get(jPanel).x, Maze.mazeMap.get(jPanel).y));
+                Maze.entry[0] = Maze.mazeMap.get(jPanel).x;
+                Maze.entry[1] = Maze.mazeMap.get(jPanel).y;
             }
         });
         popupMenu.add(entryItem);
@@ -35,7 +37,8 @@ public class RightClickListener extends MouseAdapter {
                     Maze.mazeMap.put(old_exit, new ClearVertex(old_exit, Maze.mazeMap.get(old_exit).x, Maze.mazeMap.get(old_exit).y));
                 }
                 Maze.mazeMap.put(jPanel,new Exit(jPanel,Maze.mazeMap.get(jPanel).x, Maze.mazeMap.get(jPanel).y));
-
+                Maze.exit[0] = Maze.mazeMap.get(jPanel).x;
+                Maze.exit[1] = Maze.mazeMap.get(jPanel).y;
             }
         });
         popupMenu.add(exitItem);

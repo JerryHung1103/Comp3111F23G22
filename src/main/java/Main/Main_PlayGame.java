@@ -43,7 +43,13 @@ public class Main_PlayGame {
 
         else if(GAME_STATE==2){
             System.out.println("play");
-         maze.play_game();
+            maze.play_game();
+        }
+
+        else if (GAME_STATE == 3) {
+            System.out.println("end");
+            // maze.end_game();
+            // JOptionPane.showMessageDialog(null, "end", "Game Over", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }

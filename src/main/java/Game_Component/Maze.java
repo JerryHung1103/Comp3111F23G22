@@ -5,12 +5,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.*;
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.Timer;
 
 import Event_Handler.*;
+import Main.Main_PlayGame;
 
 import static Algorithm.PathFinder.city_block_distance;
 import static Algorithm.PathFinder.findShortestPath;
@@ -279,19 +281,39 @@ public class Maze extends JFrame {
         return null;
     }
 
+    private void closeFrame() {
+        int delay = 1200;
+        ActionListener actionListener = new ActionListener() {
+            public void actionPerformed(ActionEvent event) { jFrame.dispose(); }
+        };
+        Timer timer = new Timer(delay, actionListener);
+        timer.start();
+    }
 
+    private void showNewFrame(JFrame newFrame) {
+        ActionListener actionListener = new ActionListener() {
+            public void actionPerformed(ActionEvent event) { newFrame.setVisible(true); }
+        };
+        Timer timer = new Timer(1200, actionListener);
+        timer.start();
+    }
 
     public void  play_game(){
+        closeFrame();
         List<int[]> path = new ArrayList<>();
         JFrame newFrame=new JFrame("Moving Object");
-
         MovingObject movingObject = new MovingObject(path);
         newFrame.add(movingObject);
         newFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         newFrame.pack();
-        newFrame.setVisible(true);
+        showNewFrame(newFrame);
         movingObject.startTimer();
 
+    }
+
+    public void end_game() {
+        // diff end game msg
+        // stop Tom and Jerry
     }
 }
 

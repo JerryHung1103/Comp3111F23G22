@@ -14,10 +14,10 @@ import static Algorithm.PathFinder.findShortestPath;
 import static java.lang.Math.abs;
 
 public class MovingObject extends JPanel implements KeyListener {
-    public int TomX;
-    public int TomY;
-    private int JerryX;
-    private int JerryY;
+    public static int TomX;
+    public static int TomY;
+    private static int JerryX;
+    private static int JerryY;
 
 
     private int[][] barriers = TransposeArray.T(Maze.map);
@@ -97,6 +97,7 @@ public class MovingObject extends JPanel implements KeyListener {
     }
 
     public void followPath() {
+        System.out.println("fffff");
         if (pathIndex < path.size()) {
             int[] position = path.get(pathIndex);
             int targetX = position[0];
@@ -110,28 +111,32 @@ public class MovingObject extends JPanel implements KeyListener {
         }
     }
 
+    public static boolean isGameEnd() {
+        return ((TomX == JerryX && TomY == JerryY) || (JerryX == Maze.exit[1] && JerryY == Maze.exit[0]));
+    }
+
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println("move!!!!!");
-        int keyCode = e.getKeyCode();
-        followPath();
-        switch (keyCode) {
-            case KeyEvent.VK_UP:
-                MoveJerry(0, -1);
-
-                break;
-            case KeyEvent.VK_DOWN:
-                MoveJerry(0, 1);
-                break;
-            case KeyEvent.VK_LEFT:
-                MoveJerry(-1, 0);
-                break;
-            case KeyEvent.VK_RIGHT:
-                MoveJerry(1, 0);
-                break;
+        if (!isGameEnd()) {
+            System.out.println("move!!!!!");
+            int keyCode = e.getKeyCode();
+            followPath();
+            switch (keyCode) {
+                case KeyEvent.VK_UP:
+                    MoveJerry(0, -1);
+                    break;
+                case KeyEvent.VK_DOWN:
+                    MoveJerry(0, 1);
+                    break;
+                case KeyEvent.VK_LEFT:
+                    MoveJerry(-1, 0);
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    MoveJerry(1, 0);
+                    break;
+            }
+            updatePath(); // Update the path whenever Jerry moves
         }
-        updatePath(); // Update the path whenever Jerry moves
-
 
     }
 
@@ -153,7 +158,6 @@ public class MovingObject extends JPanel implements KeyListener {
         Timer timer = new Timer(delay, actionListener);
         timer.start();
     }
-
 
 }
 

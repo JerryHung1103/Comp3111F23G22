@@ -208,7 +208,7 @@ public class MovingObject extends JPanel implements KeyListener {
             repaint();
             if (TomX == JerryX && TomY == JerryY) {
                 gameEnded = true;
-                lost();
+                lose();
         }
     }
     }
@@ -231,11 +231,11 @@ public class MovingObject extends JPanel implements KeyListener {
         }
     }
     /**
-     * This method is for handling the condition that user lost the game.
+     * This method is for handling the condition that user lose the game.
      */
-    public void lost(){
+    public void lose(){
         int choice=optionPane.showConfirmDialog(this,
-                "You have lost the game! Do you want to restart or finish?",
+                "You have lose the game! Do you want to restart or finish?",
                 "Game Over", JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
         if (choice == JOptionPane.YES_OPTION) {
@@ -323,7 +323,7 @@ public class MovingObject extends JPanel implements KeyListener {
      */
     @Override
     public void keyReleased(KeyEvent e) {}
-    //Do nothing, but I have to implement the abstract method on9 =.=
+    //Do nothing, but I have to implement the abstract method =.=
 
 
     /**

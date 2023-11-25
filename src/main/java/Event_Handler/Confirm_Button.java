@@ -7,20 +7,26 @@ import Main.Main_PlayGame;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
 
-import static Algorithm.PathFinder.findShortestPath;
-import static Game_Component.Maze.Path_Exist;
 
+/**
+ * This class is for bring the game to next stage after checking it is valid
+ * @author Jerry Hung
+ */
 public class Confirm_Button extends MouseAdapter {
-    private OptionPane optionPane =( parentComponent,  message,  title,  optionType,  messageType)->JOptionPane.showConfirmDialog(parentComponent,message,title,optionType,messageType);
-    public void setOptionPane(OptionPane optionPane) {
-        this.optionPane = optionPane;
-    }
+    /**
+     * The option Pane that shows some error message if the user input it invalid
+     */
+    public OptionPane optionPane =( parentComponent,  message,  title,  optionType,  messageType)->JOptionPane.showConfirmDialog(parentComponent,message,title,optionType,messageType);
 
+
+    /**
+     * This method is for taking the action that the user click the confirm button
+     * @param e It indicates the mouse event
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (Maze.Entry_Exist() && Maze.Exit_Exist()&& Path_Exist()) {
+        if (Maze.Entry_Exist() && Maze.Exit_Exist()&& Maze.Path_Exist()) {
             Maze.Save_Map();
             Main_PlayGame.stage1();
             Main_PlayGame.GAME_STATE=2;
@@ -33,8 +39,8 @@ public class Confirm_Button extends MouseAdapter {
             if (!Maze.Exit_Exist()) {
                 message += "Exit point is missing.\n";
             }
-            if (!Path_Exist()) {
-                message += "No path exists between the entry and exit points.\n";
+            if (!Maze.Path_Exist()) {
+                message += "No at least 2 paths exist between the entry and exit points.\n";
             }
 
             int choice = optionPane.showConfirmDialog(null,message,"Error",JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE );

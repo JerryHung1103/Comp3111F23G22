@@ -16,7 +16,15 @@ public class PanelDragListenerTest {
         maze.Reset();
     }
     @Test
-    void Test_() {
+    void test_mouseDragged() {
+        JPanel barrier_panel = new JPanel();
+        maze.mazeMap.put(barrier_panel, new Barrier(barrier_panel, 0, 0));
+        MouseEvent release_event = new MouseEvent(barrier_panel, MouseEvent.MOUSE_DRAGGED, System.currentTimeMillis(), 0, 50, 50, 1, false, MouseEvent.BUTTON1);
+        PanelDragListener panelMouseListener = new PanelDragListener();
+        panelMouseListener.mouseDragged(release_event);
+    }
+    @Test
+    void test_mouseReleased() {
         try {
             Robot robot = new Robot();
             robot.mouseMove(500, 500);

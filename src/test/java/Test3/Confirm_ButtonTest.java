@@ -25,7 +25,7 @@ class Confirm_ButtonTest {
     @Test
     void test2() {
         Confirm_Button confirmButton =new Confirm_Button();
-        confirmButton. setOptionPane(( parentComponent,  message,  title,  optionType,  messageType)-> JOptionPane.DEFAULT_OPTION);
+        confirmButton. optionPane=( parentComponent,  message,  title,  optionType,  messageType)-> JOptionPane.DEFAULT_OPTION;
         MouseEvent e = new MouseEvent(maze.confirmButton, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 0, 0, 0, false);
         confirmButton.mouseClicked(e);
 

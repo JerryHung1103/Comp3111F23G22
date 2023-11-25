@@ -13,38 +13,120 @@ import My_Functional_Interface.Do_Something;
 
 import static Algorithm.PathFinder.city_block_distance;
 import static Algorithm.PathFinder.findShortestPath;
-
+/**
+ * This class is for manipulating maze of the game
+ * @author Jerry Hung
+ */
 public class Maze extends JFrame {
+    /**
+     * The grid Panel
+     */
     public static JPanel gridPanel = new JPanel();
+    /**
+     * The total number of rows
+     */
     public static int ROWS = 30;
+    /**
+     * The total number of columns
+     */
     public static int COLS = 30;
+    /**
+     * The vertex size
+     */
     public static final int SQUARE_SIZE = 30;
-    public static int[][] map = new int[ROWS][COLS];
-    public static JButton confirmButton = new JButton("Confirm");
-    public static JPanel tempPanel = new JPanel();
-    public static int[] entry = new int[2];
-    public static int[] exit = new int[2];
 
+    /**
+     * The 30*30 map, which contains only 0s and 1s
+     */
+    public static int[][] map = new int[ROWS][COLS];
+
+
+    /**
+     * The confirm Button
+     */
+    public static JButton confirmButton = new JButton("Confirm");
+
+    /**
+     * The temporary panel which only appear when user drag the barriers
+     */
+    public static JPanel tempPanel = new JPanel();
+    /**
+     * The entry point
+     */
+    public static int[] entry = new int[2];
+    /**
+     * The exit point
+     */
+    public static int[] exit = new int[2];
+    /**
+     * The main frame
+     */
     public static JFrame jFrame = new JFrame();
 
+    /**
+     * The hash map, that takes panel as keys, vertex as values
+     */
+
     public static Map<JPanel, VertexLocation> mazeMap;
+    /**
+     * The moving object
+     */
     public static MovingObject movingObject=null;
+
+    /**
+     * The panel that shows the instruction
+     */
     public JPanel instructionsPanel;
+
+    /**
+     * The panel that shows the map
+     */
     public JPanel mapPanel;
+
+    /**
+     * The instruction button
+     */
     public JButton instructionButton;
 
+    /**
+     * The layout manager for a container, which allows user switches between instruction page and main game page
+     */
     public CardLayout cardLayout;
+
+    /**
+     * The instruction panel
+     */
     public static JPanel cardContainer;
+
+    /**
+     * The go back button
+     */
     public JButton goBackButton; // Add the "Go Back" button
 
+    /**
+     * The action of user click the go back button
+     */
     public ActionListener go_back=e->cardLayout.show(cardContainer, "Map");
 
+    /**
+     * The action of user click the instruction button
+     */
     public ActionListener instruction=e->cardLayout.show(cardContainer, "Instructions");
 
+    /**
+     * The action of user start the game
+     */
     public static Do_Something start=()-> {jFrame.dispose();jFrame=null;Main_PlayGame.GAME_STATE++;Main_PlayGame.main(new String[0]);};
 
+    /**
+     * The directory of the background image
+     */
     public static String bg_image="src/main/java/Game_Component/background.jpg";
 
+    /**
+     * This method is for creating the user interface at the beginning of the game
+     * @param Visible It indicates the visibility of the interface
+     */
     public static void createUI(Boolean Visible) {
         jFrame.setTitle("Group 22 - Game Project");
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -82,6 +164,10 @@ public class Maze extends JFrame {
 
     }
 
+    /**
+     * This method is for constructing the maze at the beginning of the game
+     * @param Visible It indicates the visibility of the maze
+     */
     public Maze(Boolean Visible) {
         mazeMap = new HashMap<>();
         jFrame = new JFrame();
@@ -168,7 +254,9 @@ public class Maze extends JFrame {
     }
 
 
-
+    /**
+     * This method is for resting the maze to the original stage
+     */
     public static void Reset() {
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
@@ -184,6 +272,12 @@ public class Maze extends JFrame {
         }
     }
 
+    /**
+     * This method is for getting the corresponding panel given row and column information.
+     * @param row It indicates the row number of the maze
+     * @param col It indicates the column number of the maze
+     * @return The reference of corresponding panel
+     */
     public static JPanel get_panel(int row, int col) {
         for (JPanel jPanel : mazeMap.keySet()) {
             if (mazeMap.get(jPanel).x == row && mazeMap.get(jPanel).y == col) {
@@ -193,6 +287,11 @@ public class Maze extends JFrame {
         return null;
     }
 
+    /**
+     * This method is for randomly generating a 30*30 2D integer array
+     * @param ratio It indicates the ratio of number 1s and 0s of the array
+     * @return The reference of randomly generated  30*30 2D integer array
+     */
     public static int[][] Auto_Generate_Map(double ratio) {
         int[][] map = new int[ROWS][COLS];
         while (true) {
@@ -209,11 +308,38 @@ public class Maze extends JFrame {
             entry = getRandomBoundaryPoint(map);
             exit = getRandomBoundaryPoint(map);
             List<int[]> path = findShortestPath(map, entry[0], entry[1], exit[0], exit[1]);
-            if (Maze.Path_Exist(path))
+            boolean anotherpathexist=anotherpath_exist(map,path,entry,exit);
+            if (anotherpathexist)
                 break;}
         return map;
     }
 
+    /**
+     * This method is for checking if there exist another possible path of the given map.
+     * @param map It indicates map that we want to check.
+     * @param path It indicates path that it already exist on the map.
+     * @param entry It indicates the entry point of the path.
+     * @param exit It indicates the exit point of the path.
+     * @return True if there exist another path, otherwise false.
+     */
+    public static boolean  anotherpath_exist(int[][] map, List<int[]> path, int[] entry, int[] exit){
+        if(path==null)return false;
+
+        for(int i=1;i<path.size()-1;i++){
+           map[path.get(i)[0]] [path.get(i)[1]]=1;
+            List<int[]> p = findShortestPath(map, entry[0], entry[1], exit[0], exit[1]);
+            map[path.get(i)[0]] [path.get(i)[1]]=0;
+            if(p!=null) return true;
+
+        }
+
+        return false;
+    }
+    /**
+     * This method is for randomly generating a pair of entry and exist at the boundary of the given map.
+     * @param map It indicates map that we want to randomly generate a pair of entry and exist at the boundary.
+     * @return a pair of non-overlapped entry and exit point at the boundary of the given map.
+     */
     public static int[] getRandomBoundaryPoint(int[][] map) {
         Random rand = new Random();
         int[] point = new int[2];
@@ -242,6 +368,10 @@ public class Maze extends JFrame {
         return point;
     }
 
+    /**
+     * This method is for randomly generating a 30*30 maze .
+     * @param ratio It indicates the ratio of number barriers and clean vertex of the maze.
+     */
     public static void Auto_Generate_Maze(double ratio) {
         map = Auto_Generate_Map(ratio);
         for (int i = 0; i < ROWS; i++) {
@@ -261,6 +391,9 @@ public class Maze extends JFrame {
         mazeMap.put(get_panel(exit[0], exit[1]), new Exit(get_panel(exit[0], exit[1]), exit[0], exit[1]));
     }
 
+    /**
+     * This method is for mapping the maze to an integer 2D array with only 0s and 1s, then output it to a csv file.
+     */
     public static void Save_Map() {//save map to csv and update the boolean map
         try {
             FileWriter writer = new FileWriter("maze.csv");
@@ -290,6 +423,10 @@ public class Maze extends JFrame {
         }catch ( IOException | RuntimeException e){}
     }
 
+    /**
+     * This method is for showing the given path on the screen.
+     * @param path It indicates the path that we want to show.
+     */
     public static void Show_Path(List<int[]> path) {
         if (!Path_Exist(path)) return;
         for (int[] coordinate : path) {
@@ -301,6 +438,11 @@ public class Maze extends JFrame {
         }
     }
 
+    /**
+     * This method is for outputting the path to a csv file.
+     * @param filename It indicates the file name that we want to write
+     * @param path It indicates the path that we want to output
+     */
     public static void OutPut_Path_To_CSV(String filename, List<int[]> path) {
         try (FileWriter writer = new FileWriter(filename)) {
             writer.write("PathType,PathNo,Index,Row_X,Row_Y\n");
@@ -314,6 +456,11 @@ public class Maze extends JFrame {
         }
     }
 
+    /**
+     * This method is for checking if the give path is valid.
+     * @param path It indicates the path that we want to check
+     * @return True if the given path is valid, otherwise false
+     */
     public static boolean Path_Exist(List<int[]> path) {
         if (path == null) return false;
         if (path.size() == 1) return false;
@@ -324,6 +471,10 @@ public class Maze extends JFrame {
         return true;
     }
 
+    /**
+     * This method is for checking if there exist at least one possible path on the given map.
+     * @return True if there exist at least one possible path on the given map, otherwise false
+     */
     public static boolean Path_Exist() {
         Save_Map();
         if(!Entry_Exist() || !Exit_Exist())return false;
@@ -333,9 +484,13 @@ public class Maze extends JFrame {
         int endCol=Maze.mazeMap.get(Maze.Get_Exit()).y;
 
         List<int[]> shortestPath = findShortestPath(Maze.map, startRow, startCol, endRow, endCol);
-        return shortestPath != null;
-    }
+      return anotherpath_exist(map,shortestPath, new int[]{startRow,startCol},new int[]{endRow,endCol});
 
+    }
+    /**
+     * This method is for checking if the entry point is already been specified on the  map.
+     * @return True if there exist entry point, otherwise false
+     */
     public static boolean Entry_Exist() {
         for (JPanel jPanel : mazeMap.keySet()) {
             if (mazeMap.get(jPanel) instanceof Entry) return true;
@@ -343,6 +498,10 @@ public class Maze extends JFrame {
         return false;
     }
 
+    /**
+     * This method is for getting the entry point of the  map.
+     * @return The reference of the entry if there exist entry point, otherwise null pointer
+     */
     public static JPanel Get_Entry() {
         for (JPanel jPanel : mazeMap.keySet()) {
             if (mazeMap.get(jPanel) instanceof Entry) return jPanel;
@@ -350,6 +509,10 @@ public class Maze extends JFrame {
         return null;
     }
 
+    /**
+     * This method is for checking if the exit point is already been specified on the  map.
+     * @return True if there exist exit point, otherwise false
+     */
     public static boolean Exit_Exist() {
         for (JPanel jPanel : mazeMap.keySet()) {
             if (mazeMap.get(jPanel) instanceof Exit) return true;
@@ -357,6 +520,10 @@ public class Maze extends JFrame {
         return false;
     }
 
+    /**
+     * This method is for getting the exit point of the  map.
+     * @return The reference of the exit if there exist exit point, otherwise null pointer
+     */
     public static JPanel Get_Exit() {
         for (JPanel jPanel : mazeMap.keySet()) {
             if (mazeMap.get(jPanel) instanceof Exit) return jPanel;
@@ -365,7 +532,10 @@ public class Maze extends JFrame {
     }
 
 
-
+    /**
+     * This method is for showing the user interface and constructing the moving object when the game is valid and ready to be played.
+     * @param visible It indicates the visibility of the frame
+     */
     public  void   play_game(boolean visible){
         List<int[]> path = new ArrayList<>();
         JFrame newFrame=new JFrame("Moving Object");

@@ -4,6 +4,7 @@ import Game_Component.Maze;
 import Game_Component.MovingObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -14,7 +15,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TestMovingObject {
     private Maze maze = new Maze(false);
-    JFrame newFrame;
+    String timer;
+    String exception;
     MovingObject movingObject;
     @BeforeEach
     public void setUp(){
@@ -156,13 +158,31 @@ public void testValidMove(){
     }
     @Test
     public void test_set_image_with_exception(){
+        movingObject.exception_handler =()->exception="Exception!";
+        String expected="Exception!";
         String s="a";
         movingObject.setImage(s, s, s );
         assertNotNull(movingObject.tomImage);
         assertNotNull(movingObject.jerryImage);
         assertNotNull(movingObject.exitImage);
+        assertEquals(expected,exception);
         //It catches the exception so will not set the image to null
     }
+    @Test
+    public void test_set_image_without_exception(){
+        String tom="src/main/java/Game_Component/tom.png";
+        String jerry="src/main/java/Game_Component/Jerry.png";
+        String exit="src/main/java/Game_Component/exit.jpg";
+        movingObject.setImage(tom,jerry,exit);
+        assertNotNull(movingObject.tomImage);
+        assertNotNull(movingObject.jerryImage);
+        assertNotNull(movingObject.exitImage);
+
+
+
+    }
+
+
     @Test
     public void test_Playgame(){
         maze.Auto_Generate_Maze(1);
@@ -171,5 +191,13 @@ public void testValidMove(){
         confirmButton.mouseClicked(ee);
         this.maze.play_game(false);
         assertNotNull(maze.movingObject);
+    }
+
+    @Test
+    public void test_timer(){
+        String expected="timer start!";
+       movingObject.timer_start=()->timer="timer start!";
+       movingObject.startTimer();
+       assertEquals(expected,timer);
     }
 }

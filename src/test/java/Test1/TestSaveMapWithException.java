@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TestSaveMapWithException {
     private Maze maze=new Maze(false);
     @Test
-    public void testSaveMap() {
+    public void testSaveMap_with_excception() {
        maze.ROWS=-1;
        maze.Save_Map();
        assertNotNull(maze.map);

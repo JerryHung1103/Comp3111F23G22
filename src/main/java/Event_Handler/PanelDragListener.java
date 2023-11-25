@@ -8,12 +8,24 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-
+/**
+ * This class is for allowing user to input the maze by dragging the barriers to another location
+ * @author Jerry Hung
+ */
 public class PanelDragListener extends MouseAdapter {
-
+    /**
+     * The offset of x direction
+     */
     private int xOffset=0;
+    /**
+     * The offset of y direction
+     */
     private int yOffset=0;
 
+    /**
+     * This method is for taking the action that the user drags the panel
+     * @param e It indicates the mouse event
+     */
     @Override
     public void mouseDragged(MouseEvent e) {
             JPanel jPanel = (JPanel) e.getSource();
@@ -26,8 +38,14 @@ public class PanelDragListener extends MouseAdapter {
                 Maze.tempPanel.setLocation(x, y);
             }
     }
-
+    /**
+     * The inner class of handling different situation of user's actions
+     */
     public static class PanelMouseListener extends MouseAdapter {
+        /**
+         * This method is for taking the action that the user release the mouse after dragging some vertexes
+         * @param e It indicates the mouse event
+         */
         @Override
         public void mouseReleased(MouseEvent e) {
             try {

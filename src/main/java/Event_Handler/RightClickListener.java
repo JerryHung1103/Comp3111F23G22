@@ -6,8 +6,21 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import Game_Component.*;//my package
 
+/**
+ * This class is for allowing the users to input the entry and exit point of the game by right-clicking the vertex
+ * @author Jerry Hung
+ */
 public class RightClickListener extends MouseAdapter {
+    /**
+     * The popup Menu that shows the option of entry or exit point that user wants to input.
+     */
     public static JPopupMenu popupMenu ;
+
+    /**
+     * This method is for taking the action that the user click the option of the popup Menu
+     * @param e It indicates the mouse event
+     * @param jPanel It indicates the panel of the particular vertex that takes the action of user.
+     */
     public static void showPopupMenu(MouseEvent e, JPanel jPanel) {
 
         popupMenu = new JPopupMenu();
@@ -43,8 +56,10 @@ public class RightClickListener extends MouseAdapter {
         popupMenu.show(e.getComponent(), e.getX(), e.getY());
     }
 
-
-
+    /**
+     * This method is for taking the action that the user press the target vertex
+     * @param e It indicates the mouse event
+     */
     public void mousePressed(MouseEvent e) {
 
             if (e.isPopupTrigger()) {
@@ -54,7 +69,10 @@ public class RightClickListener extends MouseAdapter {
 
 
     }
-
+    /**
+     * This method is for taking the action that the user releases the mouse
+     * @param e It indicates the mouse event
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         JPanel jPanel=(JPanel) e.getSource();

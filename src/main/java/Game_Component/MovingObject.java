@@ -11,25 +11,94 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import static Algorithm.PathFinder.findShortestPath;
+
+/**
+ * This class is for handling the movement of moving objects(i.e. Tom and Jerry)
+ * @author Tom
+ */
 public class MovingObject extends JPanel implements KeyListener {
+
+    /**
+     * The action that starts the timer
+     */
+    public Do_Something timer_start=()-> new Timer(150, e->followPath()).start();
+
+
+    /**
+     * The option Pane that shows some message if the game is finished
+     */
     public OptionPane optionPane = ( parentComponent,  message,  title,  optionType,  messageType)-> JOptionPane.showConfirmDialog(parentComponent,message,title,optionType,messageType);
+    /**
+     * The action that exit the program when user do not want to play it again when the game is finished.
+     */
     public Do_Something exitProgram = ()->System.exit(0);
+
+    /**
+     * The action that handles the exception
+     */
+    public Do_Something exception_handler =()->System.out.println("Exception");
+
+    /**
+     * The x coordinate of Tom
+     */
     public int TomX;
+
+    /**
+     * The y coordinate of Tom
+     */
     public int TomY;
+
+    /**
+     * The x coordinate of Jerry
+     */
     public int JerryX;
+
+    /**
+     * The y coordinate of Jerry
+     */
     public int JerryY;
 
+    /**
+     * The Image of Tom
+     */
     public Image tomImage;
-    public Image jerryImage;
-    public Image exitImage;
-    public boolean gameEnded = false; // Flag to track game state
 
+    /**
+     * The Image of Jerry
+     */
+    public Image jerryImage;
+
+    /**
+     * The Image of exit
+     */
+    public Image exitImage;
+
+    /**
+     * Flag to track game state
+     */
+    public boolean gameEnded = false;
+
+
+    /**
+     * The map ( translate form row-column based to rectangular coordinate based ), contains only 0s and 1s
+     */
     public int[][] barriers = TransposeArray.T(Maze.map);
 
+    /**
+     * the path information
+     */
+
     public List<int[]> path;
+
+    /**
+     * the index of shortest path
+     */
     public int pathIndex;
 
-
+    /**
+     * This method is for constructing the MovingObject instances.
+     * @param path It indicates the shortest path form entry to exit
+     */
 
     public MovingObject(List<int[]> path) {
 
@@ -54,15 +123,28 @@ public class MovingObject extends JPanel implements KeyListener {
         setImage(tom,jerry,exit);
 
     }
+
+    /**
+     * This method is for setting the image of Tom, Jerry and Exit
+     * @param Tom It indicates the directory of Tom's Image
+     * @param Jerry It indicates the directory of Jerry's Image
+     * @param Exit It indicates the directory of Exit's Image
+     */
     public void setImage(String Tom, String Jerry, String Exit ){
         try {
             tomImage = ImageIO.read(new File(Tom));
             jerryImage = ImageIO.read(new File(Jerry));
             exitImage = ImageIO.read(new File(Exit));
-        }catch (IOException | NullPointerException e){}
-
+        }catch (IOException | NullPointerException e){
+            exception_handler.do_Something();
+        }
     }
 
+
+    /**
+     * This method is for printing the gaming interface.
+     * @param g It indicates the abstract base class for all graphics contexts that allow an application to draw onto components that are realized.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -87,6 +169,12 @@ public class MovingObject extends JPanel implements KeyListener {
         }
     }
 
+
+    /**
+     * This method is for moving the Jerry
+     * @param dx It indicates the movement of x direction
+     * @param dy It indicates the movement of y direction
+     */
     public void MoveJerry(int dx, int dy) {
         if (gameEnded) { // Check game state
             return;
@@ -103,7 +191,11 @@ public class MovingObject extends JPanel implements KeyListener {
             }
         }
     }
-
+    /**
+     * This method is for moving the Tom
+     * @param dx It indicates the movement of x direction
+     * @param dy It indicates the movement of y direction
+     */
     public void MoveTom(int dx, int dy) {
         if (gameEnded) { // Check  state
             return;
@@ -120,7 +212,9 @@ public class MovingObject extends JPanel implements KeyListener {
         }
     }
     }
-
+    /**
+     * This method is for handling the condition that user won the game.
+     */
     public void win(){
         int choice=optionPane.showConfirmDialog(
                 this,
@@ -136,7 +230,9 @@ public class MovingObject extends JPanel implements KeyListener {
             exitProgram.do_Something();
         }
     }
-
+    /**
+     * This method is for handling the condition that user lost the game.
+     */
     public void lost(){
         int choice=optionPane.showConfirmDialog(this,
                 "You have lost the game! Do you want to restart or finish?",
@@ -150,12 +246,20 @@ public class MovingObject extends JPanel implements KeyListener {
 
         }
     }
-
+    /**
+     * This method is for checking if the particular movement is valid.
+     * @param x It indicates the x coordinate of the destination
+     * @param y It indicates the y coordinate of the destination
+     * @return true if the movement is valid, otherwise false
+     */
     public boolean isValidMove(int x, int y) {
         // Check if the position is within the frame boundaries and no barrier is present
         return x >= 0 && x < 30 && y >= 0 && y < 30 && barriers[x][y] != 1;
     }
 
+    /**
+     * This method is for updating the path that between Tom and Jerry.
+     */
     public void updatePath() {
         // Recalculate the path using Jerry's current position TomY
         List<int[]> newPath =findShortestPath(barriers, TomX, TomY, JerryX, JerryY);
@@ -165,6 +269,9 @@ public class MovingObject extends JPanel implements KeyListener {
         }
     }
 
+    /**
+     * This method is for Tom to chase the user by following the shortest path between Tom and Jerry.
+     */
     public void followPath() {
         if (pathIndex < path.size()) {
             int[] position = path.get(pathIndex);
@@ -178,7 +285,10 @@ public class MovingObject extends JPanel implements KeyListener {
             }
         }
     }
-
+    /**
+     * This method is for handling user's keyboard input.
+     * @param e It indicates key that user pressed
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
@@ -201,23 +311,34 @@ public class MovingObject extends JPanel implements KeyListener {
 
 
     }
-
+    /**
+     * This method is redundant
+     */
     @Override
     public void keyTyped(KeyEvent e) {}
     //Do nothing, but I have to implement the abstract method =.=
 
+    /**
+     * This method is redundant
+     */
     @Override
     public void keyReleased(KeyEvent e) {}
     //Do nothing, but I have to implement the abstract method on9 =.=
 
+
+    /**
+     * This method is for setting the delay of tom between each step,
+     * smaller delay means Tom move faster
+     */
     public void startTimer() {
-        int delay = 250; // Delay between each step
-        new Timer(delay, e->followPath()).start();
+        timer_start.do_Something();
     }
 
 
 
-
+    /**
+     * This method is for allowing user restart the game after the game is finished.
+     */
     public void resetGame() {
         gameEnded = false;
         JerryX = Maze.mazeMap.get(Maze.Get_Entry()).y;

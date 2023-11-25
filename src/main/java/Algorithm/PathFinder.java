@@ -3,12 +3,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 import static java.lang.Math.abs;
-
+/**
+ * This class is for finding the shortest path
+ * @author Paddy
+ */
 public class PathFinder {
+    /**
+     * This method is for calculation the manhattan distance between 2 coordinates
+     * @param x1 It indicates the x coordinate of point 1
+     * @param y1 It indicates the y coordinate of point 1
+     * @param x2 It indicates the x coordinate of point 2
+     * @param y2 It indicates the y coordinate of point 2
+     * @return the manhattan distance between point 1 and point 2
+     */
     public static int city_block_distance(int x1, int y1, int x2, int y2) {
         return abs(x1 - x2) + abs(y1 - y2);
     }
 
+    /**
+     * This method is for finding the shortest path, given the map and information of exit and entry
+     * @param map It indicates map is used to find the path
+     * @param startRow It indicates the row number of starting point
+     * @param startCol It indicates the column number of starting point
+     * @param endRow It indicates the row number of the destination
+     * @param endCol It indicates the column number of the destination
+     * @return a list of coordinate that constructs the shortest path
+     */
     public static List<int[]> findShortestPath(int[][] map, int startRow, int startCol, int endRow, int endCol) {
         int rows = map.length;
         int cols = map[0].length;

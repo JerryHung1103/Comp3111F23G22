@@ -205,6 +205,12 @@ public class Maze extends JFrame {
         tempPanel.addMouseMotionListener(new PanelDragListener());
         tempPanel.addMouseListener(new PanelDragListener.PanelMouseListener());
         tempPanel.setVisible(false);
+        //for honor student code
+        //Since I choose the requirement I) of function A :
+        //Write a program of Maze-Editor that allows user to build a maze manually.
+        //This tempPanel is for user drags a barrier and rearrange to another position
+        //It is visible only when user drag his/her mouse, it "acts" like the panel that user is dragging
+        //This is one of my own ways to enhance the program higher than standard.
         jFrame.getContentPane().add(tempPanel);
 
 
@@ -313,6 +319,12 @@ public class Maze extends JFrame {
                 break;}
         return map;
     }
+    //for honor student code
+    //Since I choose the requirement I) of function A :
+    // Write a program of Maze-Editor that allows user to build a maze manually.
+    //This Auto_Generate_Map is for user to auto generate a maze
+    //Sometime users may want to play the game only, so he/she may not want to spend time to design the maze
+    //This is one of my own ways to enhance the program higher than standard.
 
     /**
      * This method is for checking if there exist another possible path of the given map.
@@ -367,6 +379,12 @@ public class Maze extends JFrame {
 
         return point;
     }
+    //for honor student code
+    //Since I choose the requirement I) of function A :
+    // Write a program of Maze-Editor that allows user to build a maze manually.
+    //This getRandomBoundaryPoint is for auto generating a pair of Random points of the maze
+    //It is used in Auto_Generate_Map
+    //This is one of my own ways to enhance the program higher than standard.
 
     /**
      * This method is for randomly generating a 30*30 maze .
@@ -390,6 +408,11 @@ public class Maze extends JFrame {
         mazeMap.put(get_panel(entry[0], entry[1]), new Entry(get_panel(entry[0], entry[1]), entry[0], entry[1]));
         mazeMap.put(get_panel(exit[0], exit[1]), new Exit(get_panel(exit[0], exit[1]), exit[0], exit[1]));
     }
+    //for honor student code
+    //Since I choose the requirement I) of function A :
+    //Write a program of Maze-Editor that allows user to build a maze manually.
+    //This Auto_Generate_Maze is make use of Auto_Generate_Map, and visualize it to the user
+    //This is one of my own ways to enhance the program higher than standard.
 
     /**
      * This method is for mapping the maze to an integer 2D array with only 0s and 1s, then output it to a csv file.

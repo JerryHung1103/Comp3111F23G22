@@ -15,7 +15,7 @@ class Confirm_ButtonTest {
         maze.Reset();
     }
     @Test
-    void test1() {
+    void Test1() {
         Confirm_Button confirmButton =new Confirm_Button();
         MouseEvent e = new MouseEvent(maze.confirmButton, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 0, 0, 0, false);
         maze.Auto_Generate_Maze(0.75);
@@ -23,7 +23,7 @@ class Confirm_ButtonTest {
         assertEquals(2, Main_PlayGame.GAME_STATE);
     }
     @Test
-    void test2() {
+    void Test2() {
         Confirm_Button confirmButton =new Confirm_Button();
         confirmButton. optionPane=( parentComponent,  message,  title,  optionType,  messageType)-> JOptionPane.DEFAULT_OPTION;
         MouseEvent e = new MouseEvent(maze.confirmButton, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 0, 0, 0, false);

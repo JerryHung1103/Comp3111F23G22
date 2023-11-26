@@ -16,7 +16,7 @@ public class Test_print_Object {
 
 
     @Test
-    public void test_print() {
+    public void Test_print() {
         maze.Auto_Generate_Maze(0.95);
         Confirm_Button confirmButton = new Confirm_Button();
         MouseEvent ee = new MouseEvent(maze.confirmButton, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 0, 0, 0, false);

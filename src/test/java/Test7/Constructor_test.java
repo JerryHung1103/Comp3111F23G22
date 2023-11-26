@@ -6,7 +6,7 @@ import java.awt.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 public class Constructor_test {
     @Test
-    public void test_vertex_ctor(){
+    public void Test_vertex_ctor(){
         JPanel jPanel=new JPanel();
         int row=0;
         int col=5;
@@ -17,7 +17,7 @@ public class Constructor_test {
     }
 
     @Test
-    public void test_clearvertex_ctor(){
+    public void Test_clearvertex_ctor(){
         JPanel jPanel=new JPanel();
         int row=0;
         int col=5;
@@ -29,7 +29,7 @@ public class Constructor_test {
     }
 
     @Test
-    public void test_barrier_ctor(){
+    public void Test_barrier_ctor(){
         JPanel jPanel=new JPanel();
         int row=0;
         int col=5;
@@ -41,7 +41,7 @@ public class Constructor_test {
     }
 
     @Test
-    public void test_Entry_ctor(){
+    public void Test_Entry_ctor(){
         JPanel jPanel=new JPanel();
         int row=0;
         int col=5;
@@ -53,7 +53,7 @@ public class Constructor_test {
     }
 
     @Test
-    public void test_Exit_ctor(){
+    public void Test_Exit_ctor(){
         JPanel jPanel=new JPanel();
         int row=0;
         int col=5;

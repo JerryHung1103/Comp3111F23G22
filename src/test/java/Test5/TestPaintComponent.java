@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TestPaintComponent {
     String actual;
     @Test
-    public void test_print_maze(){
+    public void Test_print_maze(){
         Maze.start=()-> actual ="It_can_run_successfully";
         Maze.createUI(true);
         assertNull(actual);//we did click the start button!
@@ -20,7 +20,7 @@ public class TestPaintComponent {
         assertEquals(JFrame.EXIT_ON_CLOSE, Maze.jFrame.getDefaultCloseOperation());
     }
     @Test
-    public void test_print_maze_with_exception(){
+    public void Test_print_maze_with_exception(){
         Maze.start=()->{};
         Maze.bg_image="";
         Maze.createUI(false);

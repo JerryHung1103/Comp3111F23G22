@@ -1,6 +1,9 @@
 package Test3;
 import Game_Component.ClearVertex;
+import Game_Component.Entry;
+import Game_Component.Exit;
 import Game_Component.Maze;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import javax.swing.*;
 import java.awt.*;
@@ -27,9 +30,13 @@ public class MazeTest {
         return lines;
     }
 
-    private final static Maze maze=new Maze(false);
+    private static Maze maze=new Maze(false);
+    @BeforeEach
+    public void setup(){
+        maze=new Maze(false);
+    }
     @Test
-    public void constructor() {
+    public void TestMazeCtor() {
 
         assertNotNull(maze.mazeMap);
         assertNotNull(maze.gridPanel);
@@ -49,18 +56,27 @@ public class MazeTest {
 
     }
     @Test
-    void testEntryExist(){
+    void TestEntryExist(){
+        JPanel jPanel=new JPanel();
+        maze.mazeMap.put(jPanel,new Entry(jPanel,0,0));
+        assertTrue(maze.Entry_Exist());
+        maze.mazeMap.put(jPanel,new ClearVertex(jPanel,0,0));
         assertFalse(maze.Entry_Exist());
         //since we didn't input the Exist, so it is expected to be false
+
     }
 
     @Test
-    void testExitExist(){
+    void TestExitExist(){
+        JPanel jPanel=new JPanel();
+        maze.mazeMap.put(jPanel,new Exit(jPanel,0,0));
+        assertTrue(maze.Exit_Exist());
+        maze.mazeMap.put(jPanel,new ClearVertex(jPanel,0,0));
         assertFalse(maze.Exit_Exist());
     }
 
     @Test
-    public void testGetRandomBoundaryPoint() {
+    public void TestGetRandomBoundaryPoint() {
         boolean[]testcase={false,false,false,false};
         while (!testcase[0]||!testcase[1]||!testcase[2]||!testcase[3]){
             int[] point = Maze.getRandomBoundaryPoint(Maze.map);
@@ -83,14 +99,28 @@ public class MazeTest {
         }
     }
     @Test
-    public void testPathExist() {
+    public void TestPathExist() {
         List<int[]> path = List.of(new int[]{0, 0}, new int[]{0, 1}, new int[]{0, 2});
         assertTrue(Maze.Path_Exist(path));
         List<int[]> pathWithGap = List.of(new int[]{0, 0}, new int[]{0, 2});
         assertFalse(Maze.Path_Exist(pathWithGap));
     }
+
     @Test
-    public void testAutoGenerateMap() {
+    public void TestPathExist2() {
+        maze.entry= new int[]{0, 0};
+        maze.exit= new int[]{1, 1};
+        JPanel jPanel=new JPanel();
+        JPanel jPanel2=new JPanel();
+        maze.mazeMap.put(jPanel,new Entry(jPanel,0,0));
+        maze.mazeMap.put(jPanel2,new Exit(jPanel2,1,1));
+        assertTrue(maze.Path_Exist());
+        maze.mazeMap.put(jPanel2,new ClearVertex(jPanel2,1,1));
+        maze.mazeMap.put(jPanel,new ClearVertex(jPanel2,0,0));
+        assertFalse(maze.Path_Exist());
+    }
+    @Test
+    public void TestAutoGenerateMap() {
         int[][] generatedMap = Maze.Auto_Generate_Map(0.75);
         assertEquals(Maze.ROWS, generatedMap.length);
         assertEquals(Maze.COLS, generatedMap[0].length);
@@ -101,13 +131,13 @@ public class MazeTest {
         }
     }
     @Test
-    void test_get_panel(){
+    void Test_get_panel(){
         assertNull(Maze.get_panel(787, 878));
         // have no such index, so it is expected to be null
         assertTrue(Maze.mazeMap.keySet().contains(Maze.get_panel(29, 29)));
     }
     @Test
-    public void testShowPath() {
+    public void TestShowPath() {
         List<int[]> path = new ArrayList<>();
         path.add(new int[]{0, 0});
         path.add(new int[]{0, 1});
@@ -121,15 +151,25 @@ public class MazeTest {
         }
     }
     @Test
-    public void testSaveMap() {assertDoesNotThrow(() -> Maze.Save_Map());}
+    public void TestSaveMap() {assertDoesNotThrow(() -> Maze.Save_Map());}
     @Test
-    public void Test_Get_Exit() {assertNull(Maze.Get_Exit());}
+    public void Test_Get_Exit() {
+        JPanel jPanel=new JPanel();
+        maze.mazeMap.put(jPanel,new Exit(jPanel,0,0));
+        assertEquals(Maze.Get_Exit(),jPanel);
+        maze.mazeMap.put(jPanel,new ClearVertex(jPanel,0,0));
+        assertNull(Maze.Get_Exit());
+    }
     @Test
     public void Test_Get_Entry() {
+        JPanel jPanel=new JPanel();
+        maze.mazeMap.put(jPanel,new Entry(jPanel,0,0));
+        assertEquals(Maze.Get_Entry(),jPanel);
+        maze.mazeMap.put(jPanel,new ClearVertex(jPanel,0,0));
         assertNull(Maze.Get_Entry());
     }
     @Test
-    public void testAutoGenerateMaze() {
+    public void TestAutoGenerateMaze() {
         Maze.Auto_Generate_Maze(0.75);
         List<int[]> path = findShortestPath(Maze.map,Maze.entry[0],Maze.entry[1], Maze.exit[0], Maze.exit[1]);
         assertTrue(Maze.Path_Exist(path));
@@ -170,7 +210,7 @@ public class MazeTest {
     }
 
     @Test
-    public void testanotherpath(){
+    public void TestAnotherPath(){
         int[][]map={{0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                     {1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},

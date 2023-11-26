@@ -7,14 +7,14 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import static org.junit.jupiter.api.Assertions.*;
 class RightClickListenerTest {
-private static Maze maze=new Maze(true);
+    private static Maze maze=new Maze(true);
     @Before
     public void setUp() {
         RightClickListener.popupMenu= new JPopupMenu();
         maze.Reset();
     }
     @Test
-    public void testShowPopupMenu_EntryItemActionPerformed() {
+    public void TestShowPopupMenu_EntryItemActionPerformed() {
             JPanel panel = Maze.get_panel(0, 0);
             assertNotNull(panel);
             MouseEvent mouseEvent = new MouseEvent(panel, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, panel.getX(), panel.getY(), 1, false);
@@ -40,7 +40,7 @@ private static Maze maze=new Maze(true);
             assertTrue(Maze.mazeMap.get(panel) instanceof Exit);
     }
     @Test
-    void mousePressed() {
+    void TestMousePressed() {
 
         JPanel panel1 =  maze.get_panel(0,0);
         RightClickListener rightClickListener=new RightClickListener();
@@ -48,7 +48,7 @@ private static Maze maze=new Maze(true);
         assertNotNull(RightClickListener.popupMenu);
     }
     @Test
-    void mouseReleased() {
+    void TestMouseReleased() {
         JPanel panel1 =  maze.get_panel(0,0);
         RightClickListener rightClickListener=new RightClickListener();
         rightClickListener.mouseReleased(new MouseEvent(panel1, MouseEvent.MOUSE_RELEASED, System.currentTimeMillis(), 0, 10, 10, 1, true));

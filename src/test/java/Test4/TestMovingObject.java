@@ -31,7 +31,7 @@ public class TestMovingObject {
         movingObject.TomY=20;
     }
     @Test
-    public void test_constructor(){
+    public void Test_constructor(){
         assertNotNull(movingObject.optionPane);
         assertNotNull(movingObject.exitProgram);
         assertNotNull(movingObject.TomX);
@@ -48,7 +48,7 @@ public class TestMovingObject {
 
     }
 @Test
-public void testValidMove(){
+public void TestValidMove(){
     assertTrue(movingObject.isValidMove(movingObject.JerryX+1, movingObject.JerryY)&&
             movingObject.isValidMove(movingObject.JerryX-1, movingObject.JerryY)&&
             movingObject.isValidMove(movingObject.JerryX, movingObject.JerryY+1)&&
@@ -57,7 +57,7 @@ public void testValidMove(){
     assertFalse(movingObject.isValidMove(-1, -1));
 }
     @Test
-    public void test_MovingObject_Jerry_move(){
+    public void TestJerry_move(){
             int old_Y_location=movingObject.JerryY;
             movingObject.MoveJerry(1, 0);
             assertEquals(11,movingObject.JerryX);
@@ -76,7 +76,7 @@ public void testValidMove(){
             assertEquals(old_X_location___, movingObject.JerryX);
     }
     @Test
-    public void test_MovingObject_Tom_move(){
+    public void TestTom_move(){
             int old_Y_location=movingObject.TomY;
             movingObject.MoveTom(1, 0);
             assertEquals(21,movingObject.TomX);
@@ -100,7 +100,7 @@ public void testValidMove(){
 
 
     @Test
-    public void test_Update_Path(){
+    public void Test_Update_Path(){
         List<int[]> newPath = findShortestPath(movingObject.barriers, movingObject.TomX, movingObject.TomY, movingObject.JerryX, movingObject.JerryY);
         movingObject.updatePath();//List<int[]> newPath =findShortestPath(barriers, TomX, TomY, JerryX, JerryY);
         for(int i = 0; i<newPath.size();i++)
@@ -108,7 +108,7 @@ public void testValidMove(){
     }
 
     @Test
-    public void test_follow_Path(){
+    public void Test_follow_Path(){
         movingObject.pathIndex = 0;
         movingObject.path =new ArrayList<int[]>();
 
@@ -130,7 +130,7 @@ public void testValidMove(){
     }
 
     @Test
-    public void test_keyPressed() {
+    public void Test_keyPressed() {
             int old_Y_location = movingObject.JerryY;
             //movingObject.MoveTom(1, 0);
             movingObject.keyPressed(new KeyEvent(movingObject, 0, 0, 0, KeyEvent.VK_RIGHT));
@@ -157,7 +157,7 @@ public void testValidMove(){
         movingObject.keyReleased(new KeyEvent(movingObject, 0, 0, 0, KeyEvent.VK_UP));
     }
     @Test
-    public void test_set_image_with_exception(){
+    public void Test_set_image_with_exception(){
         movingObject.exception_handler =()->exception="Exception!";
         String expected="Exception!";
         String s="a";
@@ -169,7 +169,7 @@ public void testValidMove(){
         //It catches the exception so will not set the image to null
     }
     @Test
-    public void test_set_image_without_exception(){
+    public void Test_image_without_exception(){
         String tom="src/main/java/Game_Component/tom.png";
         String jerry="src/main/java/Game_Component/Jerry.png";
         String exit="src/main/java/Game_Component/exit.jpg";
@@ -184,7 +184,7 @@ public void testValidMove(){
 
 
     @Test
-    public void test_Playgame(){
+    public void Test_Playgame(){
         maze.Auto_Generate_Maze(1);
         Confirm_Button confirmButton = new Confirm_Button();
         MouseEvent ee = new MouseEvent(maze.confirmButton, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 0, 0, 0, false);
@@ -194,7 +194,7 @@ public void testValidMove(){
     }
 
     @Test
-    public void test_timer(){
+    public void Test_timer(){
         String expected="timer start!";
        movingObject.timer_start=()->timer="timer start!";
        movingObject.startTimer();

@@ -40,7 +40,7 @@ class Main_PlayGameTest {
     }
 
     @Test
-    public void test_stage1(){
+    public void Test_stage1(){
 
         mainPlayGame =new Main_PlayGame();
         mainPlayGame.GAME_STATE=1;

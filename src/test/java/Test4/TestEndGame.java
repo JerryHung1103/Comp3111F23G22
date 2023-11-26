@@ -25,7 +25,7 @@ public class TestEndGame {
 
     }
     @Test
-    public void test_End_Game_condition() {
+    public void Test_End_Game_condition() {
 
         movingObject.optionPane=( parentComponent,  message,  title,  optionType,  messageType)->JOptionPane.YES_OPTION;
         movingObject.TomX=movingObject.JerryX;
@@ -33,7 +33,7 @@ public class TestEndGame {
         movingObject.MoveTom(0,0);
 
 
-        movingObject.lost();
+        movingObject.lose();
         assertEquals(movingObject.gameEnded,false);
         assertEquals(movingObject.JerryX,Maze.mazeMap.get(Maze.Get_Entry()).y);
         assertEquals(movingObject.JerryY,Maze.mazeMap.get(Maze.Get_Entry()).x);
@@ -43,13 +43,13 @@ public class TestEndGame {
         movingObject.optionPane=( parentComponent,  message,  title,  optionType,  messageType)->JOptionPane.NO_OPTION;
         String expectrd="gg";
         movingObject.exitProgram=()->actual="gg";
-        movingObject.lost();
+        movingObject.lose();
         assertEquals(expectrd,actual);
 
     }
 
     @Test
-    public void test_End_Game_condition2() {
+    public void Test_End_Game_condition2() {
         movingObject.optionPane=( parentComponent,  message,  title,  optionType,  messageType)->JOptionPane.YES_OPTION;
         movingObject.JerryX=Maze.mazeMap.get(Maze.Get_Exit()).y;
         movingObject.JerryY=Maze.mazeMap.get(Maze.Get_Exit()).x;

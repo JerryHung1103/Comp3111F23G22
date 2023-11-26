@@ -39,7 +39,8 @@
     </tbody>
   </table>
  <p> ====================Important remarks for testing cases handling===================== </p>
- <p>-> Please test our test cases package by package(e.g After Test0 is finished, then start to run Test1, Test2 and so on). </p>
- <p>-> Some error may occurs when we run all the test cases concurrently.</p>
- <p>-> It is because when we run all the test cases concurrently, multiple frames are generated, some test cases are frame dependent.</p>
+ <p>Please test our test cases package by package(e.g After Test0 is finished, then start to run Test1, Test2 and so on). </p>
+ <p>Some error may occurs when we run all the test cases concurrently.</p>
+ <p>When we run all the test cases concurrently, multiple frames are generated, some test cases are frame dependent.</p>
+ <p>Please do not move the mouse when you are testing Test1, our test cases will control the mouse to "act" like a player to test our program.</p>
 

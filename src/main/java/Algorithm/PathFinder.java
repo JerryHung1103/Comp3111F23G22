@@ -30,15 +30,15 @@ public class PathFinder {
      * @return a list of coordinate that constructs the shortest path
      */
     public static List<int[]> findShortestPath(int[][] map, int startRow, int startCol, int endRow, int endCol) {
-        int rows = map.length;
-        int cols = map[0].length;
-        boolean[][] closed = new boolean[rows][cols];
-        int[][] G_cost = new int[rows][cols];
-        int[][] previous = new int[rows][cols];
+        int Rows = map.length;
+        int Cols = map[0].length;
+        boolean[][] closed = new boolean[Rows][Cols];
+        int[][] G_cost = new int[Rows][Cols];
+        int[][] previous = new int[Rows][Cols];
 
         // Initialize distance array with maximum values
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
+        for (int i = 0; i < Rows; i++) {
+            for (int j = 0; j < Cols; j++) {
                 G_cost[i][j] = Integer.MAX_VALUE;
             }
         }
@@ -52,33 +52,31 @@ public class PathFinder {
 
         while (!queue.isEmpty()) {
             int[] current = queue.poll();
-            int row = current[0];
-            int col = current[1];
+            int Row = current[0];
+            int Col = current[1];
 
             // Check if we reached the destination
-            if (row == endRow && col == endCol) {
+            if (Row == endRow && Col == endCol) {
                 break;
             }
 
             // Skip if the current position is already closed
-
-
-            closed[row][col] = true;
+            closed[Row][Col] = true;
 
             // Explore neighboring cells
-            int[][] neighbors = {{row + 1, col}, {row - 1, col}, {row, col + 1}, {row, col - 1}};
+            int[][] neighbors = {{Row + 1, Col}, {Row - 1, Col}, {Row, Col + 1}, {Row, Col - 1}};
             for (int[] neighbor : neighbors) {
                 int newRow = neighbor[0];
                 int newCol = neighbor[1];
 
                 // Check if the neighbor is within bounds and not blocked
-                if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols && map[newRow][newCol] != 1) {
-                    int new_G_cost = G_cost[row][col] + 1;
+                if (newRow >= 0 && newRow < Rows && newCol >= 0 && newCol < Cols && map[newRow][newCol] != 1) {
+                    int new_G_cost = G_cost[Row][Col] + 1;
 
                     // Update the distance and previous arrays if a shorter path is found
                     if (new_G_cost < G_cost[newRow][newCol]) {
                         G_cost[newRow][newCol] = new_G_cost;
-                        previous[newRow][newCol] = row * cols + col;
+                        previous[newRow][newCol] = Row * Cols + Col;
 
                         int H_cost = city_block_distance(newRow, newCol, endRow, endCol);
                         int F_cost = new_G_cost + H_cost;
@@ -100,8 +98,8 @@ public class PathFinder {
         while (currentRow != startRow || currentCol != startCol) {
             shortestPath.add(0, new int[]{currentRow, currentCol});
             int prev = previous[currentRow][currentCol];
-            currentRow = prev / cols;
-            currentCol = prev % cols;
+            currentRow = prev / Cols;
+            currentCol = prev % Cols;
         }
         shortestPath.add(0, new int[]{startRow, startCol});
 
